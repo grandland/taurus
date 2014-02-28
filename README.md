@@ -1,4 +1,4 @@
 taurus
 ======
 
-A share-nothing distributed business processor 
+A share-nothing distributed business processor and distributor
