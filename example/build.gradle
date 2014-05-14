@@ -1,0 +1,13 @@
+
+version = '1.0'
+
+repositories{
+    flatDir{dirs "../core/lib"}
+    mavenCentral()
+}
+
+dependencies {
+    compile (
+        project(':core'),
+    )
+}
