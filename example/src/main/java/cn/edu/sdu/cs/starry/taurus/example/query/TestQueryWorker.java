@@ -17,6 +17,15 @@ public class TestQueryWorker extends QueryWorker {
 	protected QueryResponse doWork(CacheTool cacheTool, QueryRequest query)
 			throws BusinessException {
 		TestQueryResponse response = new TestQueryResponse();
+		for(int i = 0 ; i < 10 ;i ++){
+			processRate = 0.1f * i;
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		response.setSayHello("this is a query ,saying hello "+ ((TestQueryRequest)query).getName());
 		return response;
 	}

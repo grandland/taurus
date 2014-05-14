@@ -12,17 +12,18 @@ public class SystemReporter implements BusinessReporter {
 		for (float i = 0; i < processor.getProcessRate(); i += 0.1) {
 			rate.append("〓");
 		}
-//		System.out.println("Reporter:"
+		System.out.println("Reporter:"
 //				+ requestAndIndentification.getIdentification()
-//				+ "\tprocessed: "
-//				+ Math.round(processor.getProcessRate() * 100) + "%" + "\t"
-//				+ rate.toString());
+				+ requestAndIdentification.getIdentification()
+				+ "\tprocessed: "
+				+ Math.round(processor.getProcessRate() * 100) + "%" + "\t"
+				+ rate.toString());
 	}
 
 	@Override
 	public void initialize() {
 		// TODO Auto-generated method stub
-
+		System.out.println("report init...");
 	}
 
 	@Override
