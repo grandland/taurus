@@ -28,8 +28,8 @@ public class BusinessCentralProcessor {
 
     private static final Logger LOG = LoggerFactory
             .getLogger(BusinessCentralProcessor.class);
-    private QueryWorkerFactory syncWorkerFactory;
-    private CommandProcessorFactory asyncProcessorFactory;
+    private QueryWorkerFactory queryWorkerFactory;
+    private CommandProcessorFactory commandProcessorFactory;
     private TimerProcessorFactory timerProcessorFactory;
     private Map<BusinessType, Boolean> businessEnabledMap;
 
@@ -52,13 +52,13 @@ public class BusinessCentralProcessor {
             CacheTool cacheTool) throws BusinessException {
         switch (BusinessType.valueOf(singleTypeConfiguration.getName())) {
             case QUERY:
-                LOG.info("Initialize central processor for business type: 'SYNC'");
-                syncWorkerFactory = QueryWorkerFactory.newQueryWorkerFactory(
+                LOG.info("Initialize central processor for business type: 'QUERY'");
+                queryWorkerFactory = QueryWorkerFactory.newQueryWorkerFactory(
                         singleTypeConfiguration, cacheTool);
                 break;
             case COMMAND:
-                LOG.info("Initialize central processor for business type: 'ASYNC'");
-                asyncProcessorFactory = CommandProcessorFactory
+                LOG.info("Initialize central processor for business type: 'COMMAND'");
+                commandProcessorFactory = CommandProcessorFactory
                         .newCommandProcessorFactory(singleTypeConfiguration,
                                 cacheTool);
                 break;
@@ -90,11 +90,11 @@ public class BusinessCentralProcessor {
                 .get(businessKey);
         switch (businessType) {
             case QUERY:
-                response = syncWorkerFactory.process(businessKey, requestBytes,
+                response = queryWorkerFactory.process(businessKey, requestBytes,
                         businessMonitor);
                 break;
             case COMMAND:
-                response = asyncProcessorFactory.process(businessKey, requestBytes,
+                response = commandProcessorFactory.process(businessKey, requestBytes,
                         businessMonitor);
                 break;
             case TIMER:
@@ -127,11 +127,11 @@ public class BusinessCentralProcessor {
                 .get(businessKey);
         switch (businessType) {
             case QUERY:
-                response = syncWorkerFactory.process(businessKey, request,
+                response = queryWorkerFactory.process(businessKey, request,
                         businessMonitor);
                 break;
             case COMMAND:
-                response = asyncProcessorFactory.process(businessKey, request,
+                response = commandProcessorFactory.process(businessKey, request,
                         businessMonitor);
                 break;
             case TIMER:
@@ -160,9 +160,9 @@ public class BusinessCentralProcessor {
         boolean typeEnable = businessEnabledMap.get(businessType);
         switch (businessType) {
             case QUERY:
-                return !typeEnable || syncWorkerFactory.isOverloading();
+                return !typeEnable || queryWorkerFactory.isOverloading();
             case COMMAND:
-                return !typeEnable || asyncProcessorFactory.isOverloading();
+                return !typeEnable || commandProcessorFactory.isOverloading();
             case TIMER:
                 return !typeEnable || timerProcessorFactory.isOverloading();
             default:
@@ -179,9 +179,9 @@ public class BusinessCentralProcessor {
     public int getCurrentFactoryResource(BusinessType businessType) {
         switch (businessType) {
             case QUERY:
-                return syncWorkerFactory.getResource();
+                return queryWorkerFactory.getResource();
             case COMMAND:
-                return asyncProcessorFactory.getResource();
+                return commandProcessorFactory.getResource();
             case TIMER:
                 return timerProcessorFactory.getResource();
             default:
@@ -216,8 +216,8 @@ public class BusinessCentralProcessor {
      */
     public void destroy() {
         LOG.info("Business central processor will be destroyed");
-        syncWorkerFactory.destroy();
-        asyncProcessorFactory.destroy();
+        queryWorkerFactory.destroy();
+        commandProcessorFactory.destroy();
         timerProcessorFactory.destroy();
     }
 }

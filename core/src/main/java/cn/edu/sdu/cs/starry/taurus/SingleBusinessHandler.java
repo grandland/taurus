@@ -88,7 +88,7 @@ public class SingleBusinessHandler implements Runnable {
                                             + " type reuqest "
                                             + requestAndIndentification
                                             + " from " + businessType
-                                            + " privider! Will ignore it."));
+                                            + " provider! Will ignore it."));
         } else {
             BaseBusinessResponse response = null;
             monitor = requestAndIndentification.getMonitor();

@@ -163,7 +163,7 @@ public class Taurus {
         Runtime.getRuntime().addShutdownHook(
                 new ShutdownThread(handlerContainer, reporterList,
                         centralProcessor, cacheTool, taurusListeners));
-        LOG.info("Taurus starting finished.");
+        LOG.info("Taurus started.");
     }
 
     /**
@@ -371,7 +371,7 @@ public class Taurus {
         @Override
         public void run() {
             super.run();
-            LOG.info("Starry-Taurus will stop...");
+            LOG.info("Taurus will stop...");
             for (TaurusListener listener : taurusListeners) {
                 listener.onShutdown();
             }

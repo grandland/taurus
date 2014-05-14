@@ -44,7 +44,6 @@ public class TimerRequest extends BaseBusinessRequest {
 
     @Override
     protected int calRequestLoad() {
-        // TODO Auto-generated method stub
         return 0;
     }
 

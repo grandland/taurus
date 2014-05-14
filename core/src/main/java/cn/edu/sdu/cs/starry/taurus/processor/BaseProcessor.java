@@ -18,7 +18,7 @@ public abstract class BaseProcessor {
     private static final long MONITOR_WAITING_TIME = 10000;
     protected long startTime;
     // for process control
-    private float processRate;
+    protected float processRate;
     private boolean shouldStop;
 
     /**

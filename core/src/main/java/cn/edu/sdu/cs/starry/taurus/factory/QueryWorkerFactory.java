@@ -88,7 +88,7 @@ public class QueryWorkerFactory extends BaseBusinessFactory {
 			throw new BusinessCorrespondingException();
 		}
 		QueryRequest query = (QueryRequest) request;
-		LOG.info("Received a sync request: [" + query.getUserName() + "@"
+		LOG.info("Received a query request: [" + query.getUserName() + "@"
 				+ query.getUserIP() + " >> " + query.getClass().getName()
 				+ " >> " + query.getRequestKey(true, true) + "]");
 		query.doAttributeCheck();
@@ -149,7 +149,7 @@ public class QueryWorkerFactory extends BaseBusinessFactory {
 
 	@Override
 	public void destroy() {
-		LOG.info("Sync worker factory will be destroyed...");
+		LOG.info("Query worker factory will be destroyed...");
 		requestMap.clear();
 		resultMap.clear();
 		QueryWorkerDepartment.destroy();
