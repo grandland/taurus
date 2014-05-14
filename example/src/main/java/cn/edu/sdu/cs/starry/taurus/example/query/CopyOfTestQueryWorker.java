@@ -17,6 +17,14 @@ public class CopyOfTestQueryWorker extends QueryWorker {
 	protected QueryResponse doWork(CacheTool cacheTool, QueryRequest query)
 			throws BusinessException {
 		CopyOfTestQueryResponse response = new CopyOfTestQueryResponse();
+		for(int i = 0 ; i < 4 ;i ++){
+			processRate = Math.min(0.3f * i,1.0f);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		response.setSayHello("this is a copied query ,saying hello "+ ((TestQueryRequest)query).getName());
 		return response;
 	}
