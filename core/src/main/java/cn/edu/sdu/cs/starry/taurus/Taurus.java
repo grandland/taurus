@@ -41,6 +41,7 @@ public class Taurus {
     private List<BusinessReporter> reporterList = new LinkedList<BusinessReporter>();
     private BusinessCentralProcessor centralProcessor;
     private static Taurus starryTaurus;
+    private Thread shutdownHook;
 
     private Taurus() {}
 
@@ -160,9 +161,11 @@ public class Taurus {
             }
         }
         handlerContainer.startAll();
-        Runtime.getRuntime().addShutdownHook(
-                new ShutdownThread(handlerContainer, reporterList,
-                        centralProcessor, cacheTool, taurusListeners));
+        if(null == shutdownHook){
+            shutdownHook = new ShutdownThread(handlerContainer, reporterList,
+                            centralProcessor, cacheTool, taurusListeners);	
+        }
+        Runtime.getRuntime().addShutdownHook(shutdownHook);
         LOG.info("Taurus started.");
     }
 
@@ -264,6 +267,9 @@ public class Taurus {
         CommandProcessorFactory.reset();
         QueryWorkerFactory.reset();
         TimerProcessorFactory.reset();
+        
+        //remove shutdown hook added before
+        Runtime.getRuntime().removeShutdownHook(shutdownHook);
     }
 
     private void clearTaurus() {

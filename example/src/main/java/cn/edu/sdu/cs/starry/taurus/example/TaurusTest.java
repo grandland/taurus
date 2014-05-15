@@ -18,6 +18,11 @@ public class TaurusTest{
 		Thread.sleep(8000);
 		
 		tm.restartTaurus("conf/taurus2/taurus-conf.xml");
+		
+		
+		Thread.sleep(7000);
+		
+		System.exit(0);
 	}
 
 }
