@@ -9,29 +9,30 @@ import org.slf4j.LoggerFactory;
 
 import cn.edu.sdu.cs.starry.taurus.common.exception.BusinessHandlerException;
 import cn.edu.sdu.cs.starry.taurus.processor.QueryWorker;
+import cn.edu.sdu.cs.starry.taurus.processor.Worker;
 import cn.edu.sdu.cs.starry.taurus.server.CacheTool;
 
 /**
  * For each child of {@link QueryWorker}, it's corresponding
- * {@link QueryWorkerDepartment} contains a fixed number of workers and is a
+ * {@link WorkerDepartment} contains a fixed number of workers and is a
  * singleton.
  *
  * @author SDU.xccui
  */
-public class QueryWorkerDepartment {
+public class WorkerDepartment<T extends Worker> {
     private static final Logger LOG = LoggerFactory
-            .getLogger(QueryWorkerDepartment.class);
-    private static Map<Class<? extends QueryWorker>, QueryWorkerDepartment> workerDepartmentMap = new HashMap<Class<? extends QueryWorker>, QueryWorkerDepartment>();
-    private LinkedList<QueryWorker> workerList;
-    private Class<? extends QueryWorker> workerClass;
+            .getLogger(WorkerDepartment.class);
+    private static Map<Class<? extends Worker>, WorkerDepartment> workerDepartmentMap = new HashMap<Class<? extends Worker>, WorkerDepartment>();
+    private LinkedList<T> workerList;
+    private Class<T> workerClass;
     private volatile int capacity;
 
-    private QueryWorkerDepartment(Class<? extends QueryWorker> workerClass,
+    private WorkerDepartment(Class<T> workerClass,
                                   int systemResource, CacheTool cacheUtillity) {
         capacity = 0;
-        workerList = new LinkedList<QueryWorker>();
+        workerList = new LinkedList<T>();
         this.workerClass = workerClass;
-        QueryWorker worker = null;
+        T worker = null;
         while (systemResource > 0) {
             try {
                 worker = workerClass.newInstance();
@@ -63,12 +64,12 @@ public class QueryWorkerDepartment {
      * @return
      * @throws BusinessHandlerException if there is no worker left
      */
-    public synchronized QueryWorker hireAWorker()
+    public synchronized T hireAWorker()
             throws BusinessHandlerException {
         if (workerList.size() <= 0) {
             throw new BusinessHandlerException();
         }
-        QueryWorker worker = workerList.removeFirst();
+        T worker = workerList.removeFirst();
         LOG.info("Hire a worker for class '" + workerClass.getSimpleName()
                 + "', capacity state: " + getCapacityLeft() + "/" + capacity);
         return worker;
@@ -81,7 +82,7 @@ public class QueryWorkerDepartment {
      * @return
      * @throws BusinessHandlerException if the worker is not hired from this pool
      */
-    public synchronized QueryWorker fireAWorker(QueryWorker worker)
+    public synchronized void fireAWorker(T worker)
             throws BusinessHandlerException {
         if (worker.getClass().equals(workerClass)) {
             workerList.add(worker);
@@ -90,7 +91,6 @@ public class QueryWorkerDepartment {
         } else {
             throw new BusinessHandlerException();
         }
-        return null;
     }
 
     /**
@@ -116,7 +116,7 @@ public class QueryWorkerDepartment {
      *
      * @return
      */
-    public Class<? extends QueryWorker> getDepartmentClass() {
+    public Class<T> getDepartmentClass() {
         return workerClass;
     }
 
@@ -163,15 +163,15 @@ public class QueryWorkerDepartment {
      * @param systemResource
      * @return
      */
-    public static QueryWorkerDepartment buildNewDepartment(QueryWorker worker,
+    @SuppressWarnings("unchecked")
+	public static WorkerDepartment buildNewDepartment(Worker worker, 
                                                            int systemResource, CacheTool cacheUtility) {
-        QueryWorkerDepartment department = workerDepartmentMap.get(worker
-                .getClass().getName().getClass());
+        WorkerDepartment department = workerDepartmentMap.get(worker.getClass());
         if (null == department) {
-            synchronized (QueryWorkerDepartment.class) {
+            synchronized (WorkerDepartment.class) {
                 if (null == (department = workerDepartmentMap.get(worker
                         .getClass().getClass()))) {
-                    department = new QueryWorkerDepartment(worker.getClass(),
+                    department = new WorkerDepartment(worker.getClass(),
                             systemResource, cacheUtility);
                     workerDepartmentMap.put(worker.getClass(), department);
                 }

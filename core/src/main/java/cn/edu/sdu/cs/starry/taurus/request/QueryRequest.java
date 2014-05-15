@@ -3,7 +3,7 @@ package cn.edu.sdu.cs.starry.taurus.request;
 import cn.edu.sdu.cs.starry.taurus.common.exception.BusinessCorrespondingException;
 
 /**
- * This class is for sync request with a begin number and a number for paging.
+ * This class is for query request with a begin number and a number for paging.
  *
  * @author SDU.xccui
  */

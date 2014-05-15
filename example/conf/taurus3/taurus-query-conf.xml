@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<business-type name="QUERY" enable="false">
+	<factory-resource>
+		100
+	</factory-resource>
+	<sleep-time>
+		5000
+	</sleep-time>
+	<request-provider>
+		<class>cn.edu.sdu.cs.starry.taurus.example.query.CopyOfQueryRequestProvider
+		</class>
+		<description>TimerRequestProvider</description>
+	</request-provider>
+	<reporter>
+		<class>cn.edu.sdu.cs.starry.taurus.example.SystemReporter</class>
+		<description>SystemReporter</description>
+	</reporter>
+	<response-handler>
+		<class>cn.edu.sdu.cs.starry.taurus.example.TestAllResponseHandler
+		</class>
+		<description>SimpleResponseHandler</description>
+	</response-handler>
+	<requests>
+		<default-class>cn.edu.sdu.cs.starry.taurus.example.query.CopyOfTestQueryRequest
+		</default-class>
+		<base-path>cn.edu.sdu.cs.starry.taurus.example.query</base-path>
+		<prefix></prefix>
+		<suffix>Request</suffix>
+	</requests>
+	<processors>
+		<default-class>cn.edu.sdu.cs.starry.taurus.example.query.CopyOfTestQueryWorker
+		</default-class>
+		<base-path>cn.edu.sdu.cs.starry.taurus.example.query</base-path>
+		<prefix></prefix>
+		<suffix>Worker</suffix>
+	</processors>
+	<responses>
+		<default-class>cn.edu.sdu.cs.starry.taurus.example.query.CopyOfTesQueryResponse
+		</default-class>
+		<base-path>cn.edu.sdu.cs.starry.taurus.example.query</base-path>
+		<prefix></prefix>
+		<suffix>Response</suffix>
+	</responses>
+	<businesses>
+		<!-- <business name="TaurusTest"> <request-class>cn.edu.sdu.cs.starry.taurus.example.TaurusTestQuery</request-class> 
+			<processor-class>cn.edu.sdu.cs.starry.taurus.example.TaurusTestWorker</processor-class> 
+			<response-class>cn.edu.sdu.cs.starry.taurus.example.TaurusTestResult</response-class> 
+			</business> -->
+		<business name="CopyOfTestQuery">
+		</business>
+	</businesses>
+</business-type>

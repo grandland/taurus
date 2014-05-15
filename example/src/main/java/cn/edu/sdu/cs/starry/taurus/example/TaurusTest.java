@@ -13,16 +13,17 @@ public class TaurusTest{
 	public static void main(String[] args) throws BusinessException, InterruptedException {
 
 		TaurusManager tm = TaurusManager.getTaurusManager();
-		tm.startTaurus("conf/taurus/taurus-conf.xml");
+//		tm.startTaurus("conf/taurus/taurus-conf.xml");
+//		
+//		Thread.sleep(8000);
+//		
+//		tm.restartTaurus("conf/taurus2/taurus-conf.xml");
 		
-		Thread.sleep(8000);
+		tm.startTaurus("conf/taurus3/taurus-conf.xml");
 		
-		tm.restartTaurus("conf/taurus2/taurus-conf.xml");
+//		Thread.sleep(7000);
 		
-		
-		Thread.sleep(7000);
-		
-		System.exit(0);
+//		System.exit(0);
 	}
 
 }

@@ -9,6 +9,7 @@ import cn.edu.sdu.cs.starry.taurus.BusinessResponseHandler;
 import cn.edu.sdu.cs.starry.taurus.common.exception.BusinessException;
 import cn.edu.sdu.cs.starry.taurus.common.exception.BusinessResponseHandlerException;
 import cn.edu.sdu.cs.starry.taurus.example.command.TestCommandResponse;
+import cn.edu.sdu.cs.starry.taurus.example.longquery.TestLongQueryResponse;
 import cn.edu.sdu.cs.starry.taurus.example.query.CopyOfTestQueryResponse;
 import cn.edu.sdu.cs.starry.taurus.example.query.TestQueryResponse;
 import cn.edu.sdu.cs.starry.taurus.example.timer.TestTimerResponse;
@@ -60,6 +61,14 @@ public class TestAllResponseHandler extends BusinessResponseHandler {
 					responseAndIndentification.getBusinessKey()+
 					",response: "+
 					((TestTimerResponse) responseAndIndentification.getResponse()).getSayHello()
+					);
+			break;
+		case LONGQUERY:
+			LOG.info(
+					"handle timer response of business: "+
+					responseAndIndentification.getBusinessKey()+
+					",response: "+
+					((TestLongQueryResponse) responseAndIndentification.getResponse()).getSayHello()
 					);
 			break;
 		}

@@ -32,15 +32,16 @@ public class QueryWorkerFactory extends BaseBusinessFactory {
 	private static QueryWorkerFactory factory;
 
 	private Map<String, QueryRequest> requestMap;
-	private Map<String, QueryWorkerDepartment> departmentMap;
+	private Map<String, WorkerDepartment<QueryWorker>> departmentMap;
 	private Map<String, QueryResponse> resultMap;
 
+	@SuppressWarnings("unchecked")
 	private QueryWorkerFactory(
 			SingleBusinessTypeConfiguration singleTypeConfiguration,
 			CacheTool cacheTool) throws BusinessException {
 		super(singleTypeConfiguration.getFactoryResource(), cacheTool);
 		requestMap = new HashMap<String, QueryRequest>();
-		departmentMap = new HashMap<String, QueryWorkerDepartment>();
+		departmentMap = new HashMap<String, WorkerDepartment<QueryWorker>>();
 		resultMap = new HashMap<String, QueryResponse>();
 		try {
 			String requestClass;
@@ -62,7 +63,7 @@ public class QueryWorkerFactory extends BaseBusinessFactory {
 								singleBusinessConf.getName(), responseClass,
 								singleTypeConfiguration.getResponses()));
 				departmentMap
-						.put(singleBusinessConf.getName(), QueryWorkerDepartment
+						.put(singleBusinessConf.getName(), WorkerDepartment
 								.buildNewDepartment(
 										(QueryWorker) genConfObject("processor",
 												singleBusinessConf.getName(),
@@ -108,7 +109,7 @@ public class QueryWorkerFactory extends BaseBusinessFactory {
 		final int requestLoad = query.getRequestLoad() > 0 ? query
 				.getRequestLoad() : 0;
 		minResource(requestLoad);
-		QueryWorkerDepartment workerDepartment = departmentMap.get(businessKey);
+		WorkerDepartment<QueryWorker> workerDepartment = departmentMap.get(businessKey);
 		QueryWorker worker = workerDepartment.hireAWorker();
 		LOG.info("After hire a worker, factory resource left = " + resource);
 		worker.prepare();
@@ -152,7 +153,7 @@ public class QueryWorkerFactory extends BaseBusinessFactory {
 		LOG.info("Query worker factory will be destroyed...");
 		requestMap.clear();
 		resultMap.clear();
-		QueryWorkerDepartment.destroy();
+		WorkerDepartment.destroy();
 	}
 
 	public static QueryWorkerFactory newQueryWorkerFactory(

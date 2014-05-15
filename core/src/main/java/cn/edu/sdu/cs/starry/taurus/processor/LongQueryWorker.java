@@ -4,20 +4,25 @@ import cn.edu.sdu.cs.starry.taurus.common.exception.BusinessCorrespondingExcepti
 import cn.edu.sdu.cs.starry.taurus.common.exception.BusinessException;
 import cn.edu.sdu.cs.starry.taurus.common.exception.BusinessInterruptedException;
 import cn.edu.sdu.cs.starry.taurus.request.BaseBusinessRequest;
-import cn.edu.sdu.cs.starry.taurus.request.QueryRequest;
+import cn.edu.sdu.cs.starry.taurus.request.SubQueryRequest;
 import cn.edu.sdu.cs.starry.taurus.response.QueryResponse;
 import cn.edu.sdu.cs.starry.taurus.server.CacheTool;
 
 /**
  * @author SDU.xccui
  */
-public abstract class QueryWorker extends Worker {
+public abstract class LongQueryWorker extends Worker {
 
+    protected CacheTool cacheTool;
 
     @Override
     public void prepare() {
         super.prepare();
         prepareWorker();
+    }
+
+    public void setCacheUtility(CacheTool cacheUtility) {
+        this.cacheTool = cacheUtility;
     }
 
     /**
@@ -39,14 +44,14 @@ public abstract class QueryWorker extends Worker {
      * @return
      * @throws BusinessException
      */
-    protected abstract QueryResponse doWork(CacheTool cacheTool, QueryRequest query)
+    protected abstract QueryResponse doWork(CacheTool cacheTool, SubQueryRequest query)
             throws BusinessException;
 
     @Override
     public QueryResponse process(BaseBusinessRequest request)
             throws BusinessException {
-        if (request instanceof QueryRequest) {
-            return doWork(cacheTool, (QueryRequest) request);
+        if (request instanceof SubQueryRequest) {
+            return doWork(cacheTool, (SubQueryRequest) request);
         } else {
             throw new BusinessCorrespondingException();
         }

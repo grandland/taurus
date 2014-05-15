@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<taurus>
+    <server-name>
+        taurus-1
+    </server-name>
+    <cache-hosts>
+	</cache-hosts>
+	<shutdown-wait>
+	    30
+	</shutdown-wait>
+	<listeners>
+	    <listener-class>
+	    cn.edu.sdu.cs.starry.taurus.example.TestTaurusListener
+	    </listener-class>
+	</listeners>
+	<business-type name="QUERY">
+		<conf-file>
+			taurus-query-conf.xml
+		</conf-file>
+	</business-type>
+	<business-type name="COMMAND">
+		<conf-file>
+			taurus-command-conf.xml
+		</conf-file>
+	</business-type>
+	<business-type name="TIMER">
+	    <conf-file>
+	        taurus-timer-conf.xml
+	    </conf-file>
+	</business-type>
+	<business-type name="LONGQUERY">
+	    <conf-file>
+	        taurus-long-query-conf.xml
+	    </conf-file>
+	</business-type>
+</taurus>
