@@ -100,13 +100,17 @@ public class LongQueryWorkerFactory extends BaseBusinessFactory{
     	int position = 0;
     	List<SubQueryRequest> requests = query.getSplitQuery();
 		if(null != cacheTool){
-	    	String positionS = new String(cacheTool.get(requestId));
+			byte[] positionBytes =  cacheTool.get(requestId);
+			String positionS = null;
+			if(null != positionBytes){
+		    	 positionS= new String(positionBytes);	
+			}
 
 	    	if(positionS != null){
 	    		position = Integer.parseInt(positionS);
 	    	}
 	    	if(position  > requests.size() -1){
-	    		LOG.warn("PAINC! position [{}] is greater than requests size [{}] , position will be reset to 0",position,requests.size());
+	    		LOG.warn("PANIC! position [{}] is greater than requests size [{}]! Will ignore.",position,requests.size());
 	    		throw new BusinessLongQueryFinishedException();
 	    	}
 	    	
@@ -116,7 +120,7 @@ public class LongQueryWorkerFactory extends BaseBusinessFactory{
 			if(queryKeyWithSession != null){
 				resultBytes = cacheTool.get(queryKeyWithSession);
 				if(resultBytes != null){
-					LOG.info("read query response from cache with key" + queryKeyWithSession);
+					LOG.info("read sub query response from cache with key" + queryKeyWithSession);
 					QueryResponse response = resultMap.get(businessKey).fromBytes(resultBytes);
 					//inc index.
 					position ++;
@@ -162,6 +166,7 @@ public class LongQueryWorkerFactory extends BaseBusinessFactory{
 			position ++;
 			//write to cache.
 			cacheTool.set(requestId,(position +"").getBytes());
+			LOG.info("set key[{}]=[{}]", requestId, position);
 			if(queryKeyWithSession != null){
 				//save to cache.
 				cacheTool.set(queryKeyWithSession, result.toBytes());

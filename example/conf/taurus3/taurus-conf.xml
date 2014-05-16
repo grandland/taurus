@@ -4,6 +4,7 @@
         taurus-1
     </server-name>
     <cache-hosts>
+        192.168.198.10:11211
 	</cache-hosts>
 	<shutdown-wait>
 	    30
