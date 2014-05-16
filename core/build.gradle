@@ -6,6 +6,8 @@ dependencies {
     compile (
         "com.google.code.gson:gson:2.2",
 
+		"com.google.guava:guava:17.0",
+
         "commons-pool:commons-pool:1.6",
         "com.googlecode.xmemcached:xmemcached:1.4.3",
         ":java_memcached-release:2.6.6",

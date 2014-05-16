@@ -7,6 +7,8 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.primitives.Ints;
+
 import cn.edu.sdu.cs.starry.taurus.BusinessTypeManager;
 import cn.edu.sdu.cs.starry.taurus.common.BusinessEnums.BusinessType;
 import cn.edu.sdu.cs.starry.taurus.common.exception.BusinessCorrespondingException;
@@ -101,16 +103,12 @@ public class LongQueryWorkerFactory extends BaseBusinessFactory{
     	List<SubQueryRequest> requests = query.getSplitQuery();
 		if(null != cacheTool){
 			byte[] positionBytes =  cacheTool.get(requestId);
-			String positionS = null;
 			if(null != positionBytes){
-		    	 positionS= new String(positionBytes);	
+		    	 position= Ints.fromByteArray(positionBytes);	
 			}
-
-	    	if(positionS != null){
-	    		position = Integer.parseInt(positionS);
-	    	}
+			//if position out of index,
 	    	if(position  > requests.size() -1){
-	    		LOG.warn("PANIC! position [{}] is greater than requests size [{}]! Will ignore.",position,requests.size());
+	    		LOG.warn("PANIC! position [{}] is no less than requests size [{}]! Will ignore.",position,requests.size());
 	    		throw new BusinessLongQueryFinishedException();
 	    	}
 	    	
@@ -125,7 +123,7 @@ public class LongQueryWorkerFactory extends BaseBusinessFactory{
 					//inc index.
 					position ++;
 					//write to cache.
-					cacheTool.set(requestId,(position +"").getBytes());
+					cacheTool.set(requestId,Ints.toByteArray(position));
 					return response;
 				}
 			}
@@ -165,7 +163,7 @@ public class LongQueryWorkerFactory extends BaseBusinessFactory{
 			//inc index.
 			position ++;
 			//write to cache.
-			cacheTool.set(requestId,(position +"").getBytes());
+			cacheTool.set(requestId,Ints.toByteArray(position));
 			LOG.info("set key[{}]=[{}]", requestId, position);
 			if(queryKeyWithSession != null){
 				//save to cache.
