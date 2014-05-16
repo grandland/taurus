@@ -298,8 +298,6 @@ public class Taurus {
         try {
             if (args[0].equals("start") || args[0].equals("info")) {
                 Taurus starryTaurus = Taurus.getTaurus();
-//				BusinessConfiguration configuration = new BusinessConfiguration();
-//				configuration.loadConfig(BusinessType.values());
                 if (args[0].equals("info")) {
                     BusinessConfiguration configuration = starryTaurus.loadConfiguration();
                     SingleBusinessTypeConfiguration singleTypeConfiguration;
@@ -318,36 +316,6 @@ public class Taurus {
                 }
                 if (args[0].equals("start")) {
                     starryTaurus.start();
-                }
-                //MainStatic_Server taurusListener = new MainStatic_Server();
-                //taurusListener.onStartup();
-
-                // try {
-                // Thread.sleep(1000);
-                // } catch (InterruptedException e) {
-                // e.printStackTrace();
-                // }
-                // System.exit(0);
-                // {
-                // LOG.info("Starry-Taurus will stop...");
-                // handlerContainer.stopAll();
-                // centralProcessor.destroy();
-                // for (IBusinessReporter reporter : reporterList) {
-                // if (null != reporter) {
-                // reporter.close();
-                // }
-                // }
-                // if (null != cacheTool)
-                // cacheTool.shutdown();
-                // }
-            }
-            if (args[0].equals("restarttest")) {
-                Taurus.getTaurus().start();
-                try {
-                    Thread.sleep(4000);
-                    Taurus.getTaurus().restart("conf/taurus2/taurus-conf.xml");
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
             }
         } catch (BusinessException e) {
