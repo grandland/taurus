@@ -12,6 +12,15 @@ subprojects {
         mavenCentral()
     }
 
+    tasks.withType(JavaCompile){
+        options.encoding = 'utf-8'
+    }
+
+    tasks.withType(Javadoc){
+        options.encoding = 'utf-8'
+        options.charSet = 'utf-8'
+    }
+
 }
 
 
