@@ -21,6 +21,7 @@ import cn.edu.sdu.cs.starry.taurus.request.BaseBusinessRequest;
 import cn.edu.sdu.cs.starry.taurus.request.LongQueryRequest;
 import cn.edu.sdu.cs.starry.taurus.request.SubQueryRequest;
 import cn.edu.sdu.cs.starry.taurus.response.BaseBusinessResponse;
+import cn.edu.sdu.cs.starry.taurus.response.LongQueryResponse;
 import cn.edu.sdu.cs.starry.taurus.response.QueryResponse;
 import cn.edu.sdu.cs.starry.taurus.server.BusinessMonitor;
 import cn.edu.sdu.cs.starry.taurus.server.CacheTool;
@@ -33,7 +34,7 @@ public class LongQueryWorkerFactory extends BaseBusinessFactory{
 	
 	private Map<String, LongQueryRequest> requestMap;
 	private Map<String, WorkerDepartment<LongQueryWorker>> departmentMap;
-	private Map<String, QueryResponse> resultMap;
+	private Map<String, LongQueryResponse> resultMap;
 	
 	@SuppressWarnings("unchecked")
 	private LongQueryWorkerFactory(
@@ -42,7 +43,7 @@ public class LongQueryWorkerFactory extends BaseBusinessFactory{
 		super(singleTypeConfiguration.getFactoryResource(), cacheTool);
 		requestMap = new HashMap<String, LongQueryRequest>();
 		departmentMap = new HashMap<String, WorkerDepartment<LongQueryWorker>>();
-		resultMap = new HashMap<String, QueryResponse>();
+		resultMap = new HashMap<String, LongQueryResponse>();
 		try {
 			String requestClass;
 			String processorClass;
@@ -59,7 +60,7 @@ public class LongQueryWorkerFactory extends BaseBusinessFactory{
 								singleTypeConfiguration.getRequests()));
 				resultMap.put(
 						singleBusinessConf.getName(),
-						(QueryResponse) genConfObject("response",
+						(LongQueryResponse) genConfObject("response",
 								singleBusinessConf.getName(), responseClass,
 								singleTypeConfiguration.getResponses()));
 				departmentMap
@@ -77,6 +78,7 @@ public class LongQueryWorkerFactory extends BaseBusinessFactory{
 						singleBusinessConf.getName(), BusinessType.LONGQUERY);
 			}
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			throw new BusinessCorrespondingException(ex);
 		}
 	}
@@ -93,43 +95,11 @@ public class LongQueryWorkerFactory extends BaseBusinessFactory{
 				+ query.getUserIP() + " >> " + query.getClass().getName()
 				+ " >> " +query.getRequestKey(true, true)+" >> " + query.getRequestId()+"]");
 		query.doAttributeCheck();
-		byte[] resultBytes;
-		String queryKeyWithSession = null;
+		
 		if(null == cacheTool){
-			LOG.warn("Cache tool disabled. LongQuery won't work normally!");
-		}
-    	String requestId = query.getRequestId();
-    	int position = 0;
-    	List<SubQueryRequest> requests = query.getSplitQuery();
-		if(null != cacheTool){
-			byte[] positionBytes =  cacheTool.get(requestId);
-			if(null != positionBytes){
-		    	 position= Ints.fromByteArray(positionBytes);	
-			}
-			//if position out of index,
-	    	if(position  > requests.size() -1){
-	    		LOG.warn("PANIC! position [{}] is no less than requests size [{}]! Will ignore.",position,requests.size());
-	    		throw new BusinessLongQueryFinishedException();
-	    	}
-	    	
-	    	//get sub query cache key.
-			queryKeyWithSession = requests.get(position).getRequestKey(true, true);
-			//try fetch cache
-			if(queryKeyWithSession != null){
-				resultBytes = cacheTool.get(queryKeyWithSession);
-				if(resultBytes != null){
-					LOG.info("read sub query response from cache with key" + queryKeyWithSession);
-					QueryResponse response = resultMap.get(businessKey).fromBytes(resultBytes);
-					//inc index.
-					position ++;
-					//write to cache.
-					cacheTool.set(requestId,Ints.toByteArray(position));
-					return response;
-				}
-			}
+			LOG.error("Cache tool disabled. LongQuery won't work normally!");
 		}
 		
-		//no cache hit, let's work
 		final int requestLoad = query.getRequestLoad() > 0 ? query.getRequestLoad() : 0;
 		minResource(requestLoad);
 		
@@ -142,10 +112,11 @@ public class LongQueryWorkerFactory extends BaseBusinessFactory{
 			monitor.setProcessor(worker);
 			monitor.start();
 		}
-		QueryResponse result = null;
+		LongQueryResponse result = null;
 		try{
-			result = worker.process(requests.get(position));
+			result = worker.process(query);
 		} catch (Exception ex){
+			ex.printStackTrace();
 			LOG.error(ex.getMessage());
 			throw new BusinessException(ex);
 		} finally {
@@ -157,18 +128,6 @@ public class LongQueryWorkerFactory extends BaseBusinessFactory{
 			workerDepartment.fireAWorker(worker);
 			addResource(requestLoad);
 			LOG.info("After fire a worker, resource left = " + resource);
-		}
-		if(null != cacheTool){
-			//store position 
-			//inc index.
-			position ++;
-			//write to cache.
-			cacheTool.set(requestId,Ints.toByteArray(position));
-			LOG.info("set key[{}]=[{}]", requestId, position);
-			if(queryKeyWithSession != null){
-				//save to cache.
-				cacheTool.set(queryKeyWithSession, result.toBytes());
-			}
 		}
 		
 		return result;

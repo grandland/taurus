@@ -1,28 +1,60 @@
 package cn.edu.sdu.cs.starry.taurus.example.longquery;
 
-import cn.edu.sdu.cs.starry.taurus.response.QueryResponse;
+import java.util.List;
 
-public class TestLongQueryResponse extends QueryResponse {
+import com.google.gson.Gson;
 
-	private String sayHello;
+import cn.edu.sdu.cs.starry.taurus.response.LongQueryResponse;
 
+public class TestLongQueryResponse extends LongQueryResponse {
+
+	private List<Record> records;
+
+	private  String error;
+	
+	//the page num this response returns.
+	private int page;
+	
+	private int totalCount;
+	
 	public TestLongQueryResponse() {
 		super();
 	}
 
-	public TestLongQueryResponse(String sayHello) {
-		super();
-		this.sayHello = sayHello;
+	public List<Record> getRecords() {
+		return records;
 	}
 
-	public String getSayHello() {
-		return sayHello;
+	public void setRecords(List<Record> records) {
+		this.records = records;
 	}
 
-	public void setSayHello(String sayHello) {
-		this.sayHello = sayHello;
+	public String getError() {
+		return error;
 	}
-	
-	
+
+	public void setError(String error) {
+		this.error = error;
+	}
+
+	public int getPage() {
+		return page;
+	}
+
+	public void setPage(int page) {
+		this.page = page;
+	}
+
+	public int getTotalCount() {
+		return totalCount;
+	}
+
+	public void setTotalCount(int totalCount) {
+		this.totalCount = totalCount;
+	}
+
+	public String getSayHello(){
+		return new Gson().toJson(this);
+	}
 	
 }

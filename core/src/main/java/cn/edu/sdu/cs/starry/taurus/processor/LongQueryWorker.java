@@ -4,7 +4,8 @@ import cn.edu.sdu.cs.starry.taurus.common.exception.BusinessCorrespondingExcepti
 import cn.edu.sdu.cs.starry.taurus.common.exception.BusinessException;
 import cn.edu.sdu.cs.starry.taurus.common.exception.BusinessInterruptedException;
 import cn.edu.sdu.cs.starry.taurus.request.BaseBusinessRequest;
-import cn.edu.sdu.cs.starry.taurus.request.SubQueryRequest;
+import cn.edu.sdu.cs.starry.taurus.request.LongQueryRequest;
+import cn.edu.sdu.cs.starry.taurus.response.LongQueryResponse;
 import cn.edu.sdu.cs.starry.taurus.response.QueryResponse;
 import cn.edu.sdu.cs.starry.taurus.server.CacheTool;
 
@@ -44,14 +45,14 @@ public abstract class LongQueryWorker extends Worker {
      * @return
      * @throws BusinessException
      */
-    protected abstract QueryResponse doWork(CacheTool cacheTool, SubQueryRequest query)
+    protected abstract LongQueryResponse doWork(CacheTool cacheTool, LongQueryRequest query)
             throws BusinessException;
 
     @Override
-    public QueryResponse process(BaseBusinessRequest request)
+    public LongQueryResponse process(BaseBusinessRequest request)
             throws BusinessException {
-        if (request instanceof SubQueryRequest) {
-            return doWork(cacheTool, (SubQueryRequest) request);
+        if (request instanceof LongQueryRequest) {
+            return doWork(cacheTool, (LongQueryRequest) request);
         } else {
             throw new BusinessCorrespondingException();
         }

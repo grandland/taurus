@@ -7,6 +7,16 @@ import cn.edu.sdu.cs.starry.taurus.common.exception.BusinessCorrespondingExcepti
  */
 public abstract class LongQueryResponse extends BaseBusinessResponse {
 	
+	private boolean finished;
+	
+	public boolean isFinished(){
+		return finished;
+	}
+	
+	public void setFinished(boolean f){
+		finished = f;
+	}
+	
     @Override
     public LongQueryResponse fromBytes(byte[] bytes)
             throws BusinessCorrespondingException {

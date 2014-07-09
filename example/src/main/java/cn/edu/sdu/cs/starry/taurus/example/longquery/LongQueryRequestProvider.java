@@ -25,6 +25,8 @@ public class LongQueryRequestProvider extends BusinessRequestProvider {
 	
 	private List<TestLongQueryRequest> requests;
 	
+	private int count = 0;
+	
 	public LongQueryRequestProvider(BusinessType type) {
 		super(type);
 	}
@@ -35,8 +37,10 @@ public class LongQueryRequestProvider extends BusinessRequestProvider {
 			throws BusinessRequestProviderException {
 		businesses = singleTypeConfig.getBusinesses();
 		requests = new ArrayList<>();
-		for(int i = 0 ; i < 1;i++){
-			requests.add(new TestLongQueryRequest("LongQuery request No."+i));
+		for(int i = 0 ; i < 2;i++){
+			TestLongQueryRequest request = new TestLongQueryRequest("LongQuery request No."+i);
+			request.setPageSize(8);
+			requests.add(request);
 		}
 	}
 
@@ -68,23 +72,24 @@ public class LongQueryRequestProvider extends BusinessRequestProvider {
 	public RequestAndIdentification provideNext()
 			throws BusinessRequestProviderException {
 		try {
-			int random = (int)(Math.random()*5000);
+			int random = (int)(Math.random()*500);
 			Thread.sleep(random);
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}
 		int index = (int)(Math.random() * businesses.size());
 		String key  = (String) businesses.keySet().toArray()[index];
+		
+		int[] positions = {0,1,2,3,6,3,4,1,5,6,7,8,1,10,4};
+		
+		requests.get(0).setPage(positions[count % positions.length]);
+		
 		RequestAndIdentification requestAndIndentification = new RequestAndIdentification(requests.get(0), 
 				new SimpleRequestIdentification(key, new SimpleDateFormat(
 				"yyyy-MM-dd HH:mm:ss").format(new Date(
 				System.currentTimeMillis()))), key);
-//		RequestAndIdentification requestAndIndentification = new RequestAndIdentification(
-//				new TestLongQueryRequest("ytchen NO."+(int)(Math.random()*10)), new SimpleRequestIdentification(
-//						key, new SimpleDateFormat(
-//								"yyyy-MM-dd HH:mm:ss").format(new Date(
-//								System.currentTimeMillis()))),key);
 		requestAndIndentification.createInnerMonitor(2000, -1, reporter);
+		count ++;
 		return requestAndIndentification;
 	}
 

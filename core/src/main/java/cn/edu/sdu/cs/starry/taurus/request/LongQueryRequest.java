@@ -13,6 +13,11 @@ public abstract class LongQueryRequest extends BaseBusinessRequest{
     private int beginNumber;
     private int number;
     
+    //When set by user. It means start page.
+    private int page = 0;
+    //page size per page.
+    private int pageSize = 0;
+     
     /**
      * Identify this request*/
     private String requestId;
@@ -21,7 +26,7 @@ public abstract class LongQueryRequest extends BaseBusinessRequest{
         super();
     }
 
-    public LongQueryRequest(int beginNumber, int number, RequestInfo info) {
+    public LongQueryRequest(int beginNumber, int number,RequestInfo info) {
     	this(beginNumber,number,null,info);
     }
     
@@ -41,7 +46,23 @@ public abstract class LongQueryRequest extends BaseBusinessRequest{
         return number;
     }
     
-    public final String getRequestId(){
+    public int getPage() {
+		return page;
+	}
+
+	public void setPage(int page) {
+		this.page = page;
+	}
+	
+	public int getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
+
+	public final String getRequestId(){
     	if(requestId == null){
     		requestId = genRequestId();
     	}
