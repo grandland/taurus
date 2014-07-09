@@ -1,4 +1,6 @@
-package cn.edu.sdu.cs.starry.taurus.common.exception;
+package cn.edu.sdu.cs.starry.taurus.example.exception;
+
+import cn.edu.sdu.cs.starry.taurus.common.exception.BusinessException;
 
 /**
  * When encountered an uncorrectable attribute in query.

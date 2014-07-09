@@ -4,9 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import cn.edu.sdu.cs.starry.taurus.common.exception.BusinessRequestAttributeException;
-import cn.edu.sdu.cs.starry.taurus.request.LongQueryRequest;
 import cn.edu.sdu.cs.starry.taurus.request.QueryRequest;
-import cn.edu.sdu.cs.starry.taurus.request.SubQueryRequest;
 
 public class TestLongQueryRequest extends LongQueryRequest {
 

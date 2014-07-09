@@ -12,15 +12,15 @@ import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 
 import cn.edu.sdu.cs.starry.taurus.common.exception.BusinessException;
-import cn.edu.sdu.cs.starry.taurus.common.exception.BusinessLongQueryFinishedException;
-import cn.edu.sdu.cs.starry.taurus.common.exception.BusinessLongQueryJumpException;
-import cn.edu.sdu.cs.starry.taurus.processor.LongQueryWorker;
-import cn.edu.sdu.cs.starry.taurus.request.LongQueryRequest;
-import cn.edu.sdu.cs.starry.taurus.request.SubQueryRequest;
-import cn.edu.sdu.cs.starry.taurus.response.LongQueryResponse;
+import cn.edu.sdu.cs.starry.taurus.common.exception.BusinessProcessException;
+import cn.edu.sdu.cs.starry.taurus.example.exception.BusinessLongQueryFinishedException;
+import cn.edu.sdu.cs.starry.taurus.example.exception.BusinessLongQueryJumpException;
+import cn.edu.sdu.cs.starry.taurus.processor.QueryWorker;
+import cn.edu.sdu.cs.starry.taurus.request.QueryRequest;
+import cn.edu.sdu.cs.starry.taurus.response.QueryResponse;
 import cn.edu.sdu.cs.starry.taurus.server.CacheTool;
 
-public class TestLongQueryWorker extends LongQueryWorker {
+public class TestLongQueryWorker extends QueryWorker {
 
 	private Logger LOG = LoggerFactory.getLogger(TestLongQueryWorker.class);
 	
@@ -43,8 +43,15 @@ public class TestLongQueryWorker extends LongQueryWorker {
 	}
 
 	@Override
-	protected LongQueryResponse doWork(CacheTool cacheTool, LongQueryRequest query)
+	protected QueryResponse doWork(CacheTool cacheTool, QueryRequest queryRequest)
 			throws BusinessException {
+		LongQueryRequest query;
+		if(queryRequest instanceof LongQueryRequest){
+			query = (LongQueryRequest) queryRequest;
+		}else{
+			throw new BusinessProcessException("Wrong request type!");
+		}
+		
 		Gson gson = new Gson();
 		TestLongQueryResponse response = new TestLongQueryResponse();
 		String requestId = query.getRequestId();

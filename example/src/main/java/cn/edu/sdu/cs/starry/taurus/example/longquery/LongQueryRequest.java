@@ -1,14 +1,16 @@
-package cn.edu.sdu.cs.starry.taurus.request;
+package cn.edu.sdu.cs.starry.taurus.example.longquery;
 
 import java.util.List;
 import java.util.UUID;
 
 import cn.edu.sdu.cs.starry.taurus.common.exception.BusinessCorrespondingException;
+import cn.edu.sdu.cs.starry.taurus.request.QueryRequest;
+import cn.edu.sdu.cs.starry.taurus.request.RequestInfo;
 
 /**
  * This class is for long query request with 
  * */
-public abstract class LongQueryRequest extends BaseBusinessRequest{
+public abstract class LongQueryRequest extends QueryRequest{
 
     private int beginNumber;
     private int number;
@@ -17,13 +19,14 @@ public abstract class LongQueryRequest extends BaseBusinessRequest{
     private int page = 0;
     //page size per page.
     private int pageSize = 0;
-     
+
     /**
      * Identify this request*/
     private String requestId;
 
     public LongQueryRequest() {
         super();
+        setAutoCache(false);
     }
 
     public LongQueryRequest(int beginNumber, int number,RequestInfo info) {
@@ -31,11 +34,12 @@ public abstract class LongQueryRequest extends BaseBusinessRequest{
     }
     
     public LongQueryRequest(int beginNumber, int number, String requestId, RequestInfo info) {
-        super(info.getSessionId(), info.getUserName(), info.getUserIp());
+        super(beginNumber, number, info);
         this.beginNumber = beginNumber;
         this.number = number;
         sessionId = info.getSessionId();
     	this.requestId = requestId;
+    	setAutoCache(false);
     }
 
     public int getBeginNumber() {
@@ -104,9 +108,9 @@ public abstract class LongQueryRequest extends BaseBusinessRequest{
         }
         return keyBuilder.toString();
     }
-
+    
     @Override
-    public final LongQueryRequest fromBytes(byte[] bytes)
+    public LongQueryRequest fromBytes(byte[] bytes)
             throws BusinessCorrespondingException {
         return (LongQueryRequest) super.fromBytes(bytes);
     }

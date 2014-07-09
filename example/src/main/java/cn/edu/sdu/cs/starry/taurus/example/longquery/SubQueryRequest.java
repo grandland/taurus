@@ -1,9 +1,11 @@
-package cn.edu.sdu.cs.starry.taurus.request;
+package cn.edu.sdu.cs.starry.taurus.example.longquery;
 
 import java.util.List;
 import java.util.UUID;
 
 import cn.edu.sdu.cs.starry.taurus.common.exception.BusinessCorrespondingException;
+import cn.edu.sdu.cs.starry.taurus.request.BaseBusinessRequest;
+import cn.edu.sdu.cs.starry.taurus.request.RequestInfo;
 
 /**
  * This class is for long query request with 

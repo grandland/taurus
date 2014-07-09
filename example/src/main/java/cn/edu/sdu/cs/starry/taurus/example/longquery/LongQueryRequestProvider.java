@@ -95,7 +95,7 @@ public class LongQueryRequestProvider extends BusinessRequestProvider {
 
 
 	public static void main(String[] args) {
-		LongQueryRequestProvider provider = new LongQueryRequestProvider(BusinessType.LONGQUERY);
+		LongQueryRequestProvider provider = new LongQueryRequestProvider(BusinessType.QUERY);
 		SingleBusinessTypeConfiguration singleTypeConfig = new SingleBusinessTypeConfiguration();
 		singleTypeConfig.getBusinesses().put("Test",
 				new SingleBusinessConf("Test", 10000));

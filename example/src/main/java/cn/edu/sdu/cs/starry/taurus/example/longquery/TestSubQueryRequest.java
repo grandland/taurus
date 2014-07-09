@@ -1,7 +1,6 @@
 package cn.edu.sdu.cs.starry.taurus.example.longquery;
 
 import cn.edu.sdu.cs.starry.taurus.common.exception.BusinessRequestAttributeException;
-import cn.edu.sdu.cs.starry.taurus.request.SubQueryRequest;
 
 public class TestSubQueryRequest extends SubQueryRequest {
 	

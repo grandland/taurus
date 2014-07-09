@@ -19,7 +19,7 @@ public class TaurusTest{
 //		
 //		tm.restartTaurus("conf/taurus2/taurus-conf.xml");
 		
-		tm.startTaurus("conf/taurus3/taurus-conf.xml");
+		tm.startTaurus("conf/taurus4/taurus-conf.xml");
 		
 //		Thread.sleep(7000);
 		

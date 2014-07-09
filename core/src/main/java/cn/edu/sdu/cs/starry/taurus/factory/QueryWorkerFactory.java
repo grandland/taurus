@@ -95,7 +95,7 @@ public class QueryWorkerFactory extends BaseBusinessFactory {
 		query.doAttributeCheck();
 		byte[] resultBytes;
 		String queryKeyWithSession = null;
-		if (null != cacheTool) {// cache enable
+		if (query.isAutoCache() && null != cacheTool) {// cache enable
 			queryKeyWithSession = query.getRequestKey(true, true);
 			if (queryKeyWithSession != null) {
 				// out cache enabled, check cache first
@@ -133,7 +133,7 @@ public class QueryWorkerFactory extends BaseBusinessFactory {
 			addResource(requestLoad);
 			LOG.info("After fire a worker, resource left = " + resource);
 		}
-		if (null != cacheTool && queryKeyWithSession != null) {// cache
+		if (query.isAutoCache() && null != cacheTool && queryKeyWithSession != null) {// cache
 																// enable
 			// save to cache
 			cacheTool.set(queryKeyWithSession, result.toBytes());

@@ -11,6 +11,8 @@ public abstract class QueryRequest extends BaseBusinessRequest {
 
     private int beginNumber;
     private int number;
+    
+    private boolean autoCache = true;
 
     public QueryRequest() {
         super();
@@ -30,8 +32,16 @@ public abstract class QueryRequest extends BaseBusinessRequest {
     public int getNumber() {
         return number;
     }
+    
+    public boolean isAutoCache() {
+		return autoCache;
+	}
 
-    /**
+	public void setAutoCache(boolean autoCache) {
+		this.autoCache = autoCache;
+	}
+
+	/**
      * Return an unique key for cache use. This key will <b>not</b> be refreshed
      * when attributes changed.
      *
@@ -59,7 +69,7 @@ public abstract class QueryRequest extends BaseBusinessRequest {
     }
 
     @Override
-    public final QueryRequest fromBytes(byte[] bytes)
+    public QueryRequest fromBytes(byte[] bytes)
             throws BusinessCorrespondingException {
         return (QueryRequest) super.fromBytes(bytes);
     }

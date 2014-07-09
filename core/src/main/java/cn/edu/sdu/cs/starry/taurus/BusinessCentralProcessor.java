@@ -12,7 +12,6 @@ import cn.edu.sdu.cs.starry.taurus.common.exception.BusinessCorrespondingExcepti
 import cn.edu.sdu.cs.starry.taurus.common.exception.BusinessException;
 import cn.edu.sdu.cs.starry.taurus.conf.SingleBusinessTypeConfiguration;
 import cn.edu.sdu.cs.starry.taurus.factory.CommandProcessorFactory;
-import cn.edu.sdu.cs.starry.taurus.factory.LongQueryWorkerFactory;
 import cn.edu.sdu.cs.starry.taurus.factory.QueryWorkerFactory;
 import cn.edu.sdu.cs.starry.taurus.factory.TimerProcessorFactory;
 import cn.edu.sdu.cs.starry.taurus.request.BaseBusinessRequest;
@@ -30,7 +29,6 @@ public class BusinessCentralProcessor {
     private static final Logger LOG = LoggerFactory
             .getLogger(BusinessCentralProcessor.class);
     private QueryWorkerFactory queryWorkerFactory;
-    private LongQueryWorkerFactory longQueryWorkerFactory;
     private CommandProcessorFactory commandProcessorFactory;
     private TimerProcessorFactory timerProcessorFactory;
     private Map<BusinessType, Boolean> businessEnabledMap;
@@ -70,11 +68,6 @@ public class BusinessCentralProcessor {
                         .newTimerProcessorFactory(singleTypeConfiguration,
                                 cacheTool);
                 break;
-            case LONGQUERY:
-            	LOG.info("Initialize central processor for business type: 'LONGQUERY'");
-            	longQueryWorkerFactory = LongQueryWorkerFactory.newLongQueryWorkerFactory(
-            			singleTypeConfiguration, cacheTool);
-                break;
         }
     }
 
@@ -108,10 +101,6 @@ public class BusinessCentralProcessor {
                 response = timerProcessorFactory.process(businessKey, requestBytes,
                         businessMonitor);
                 break;
-            case LONGQUERY:
-            	response = longQueryWorkerFactory.process(businessKey, requestBytes, 
-            			businessMonitor);
-            	break;
             default:
                 throw new BusinessCorrespondingException("Unknown business key: '"
                         + businessKey + "'");
@@ -149,10 +138,6 @@ public class BusinessCentralProcessor {
                 response = timerProcessorFactory.process(businessKey, request,
                         businessMonitor);
                 break;
-            case LONGQUERY:
-            	response = longQueryWorkerFactory.process(businessKey, request,
-            			businessMonitor);
-            	break;
             default:
                 throw new BusinessCorrespondingException("Unknown business key: '"
                         + businessKey + "'");
@@ -180,8 +165,6 @@ public class BusinessCentralProcessor {
                 return !typeEnable || commandProcessorFactory.isOverloading();
             case TIMER:
                 return !typeEnable || timerProcessorFactory.isOverloading();
-            case LONGQUERY:
-            	return !typeEnable || longQueryWorkerFactory.isOverloading();
             default:
                 return false;
         }
@@ -201,8 +184,6 @@ public class BusinessCentralProcessor {
                 return commandProcessorFactory.getResource();
             case TIMER:
                 return timerProcessorFactory.getResource();
-            case LONGQUERY:
-            	return longQueryWorkerFactory.getResource();
             default:
                 return 0;
         }
@@ -238,6 +219,5 @@ public class BusinessCentralProcessor {
         queryWorkerFactory.destroy();
         commandProcessorFactory.destroy();
         timerProcessorFactory.destroy();
-        longQueryWorkerFactory.destroy();
     }
 }

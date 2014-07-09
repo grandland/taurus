@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.google.gson.Gson;
 
-import cn.edu.sdu.cs.starry.taurus.response.LongQueryResponse;
 
 public class TestLongQueryResponse extends LongQueryResponse {
 

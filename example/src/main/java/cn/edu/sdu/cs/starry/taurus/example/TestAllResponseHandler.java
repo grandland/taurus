@@ -47,6 +47,14 @@ public class TestAllResponseHandler extends BusinessResponseHandler {
 						",response: "+
 						((TestQueryResponse) responseAndIndentification.getResponse()).getSayHello()
 						);
+			else if(responseAndIndentification.getResponse() instanceof TestLongQueryResponse){
+				LOG.info(
+						"handle query response of business: "+
+						responseAndIndentification.getBusinessKey()+
+						",response: "+
+						((TestLongQueryResponse) responseAndIndentification.getResponse()).getSayHello()
+						);
+			}
 			else
 				LOG.info(
 						"handle query response of business: "+
@@ -61,14 +69,6 @@ public class TestAllResponseHandler extends BusinessResponseHandler {
 					responseAndIndentification.getBusinessKey()+
 					",response: "+
 					((TestTimerResponse) responseAndIndentification.getResponse()).getSayHello()
-					);
-			break;
-		case LONGQUERY:
-			LOG.info(
-					"handle timer response of business: "+
-					responseAndIndentification.getBusinessKey()+
-					",response: "+
-					((TestLongQueryResponse) responseAndIndentification.getResponse()).getSayHello()
 					);
 			break;
 		}
