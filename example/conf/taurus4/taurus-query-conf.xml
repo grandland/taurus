@@ -46,7 +46,10 @@
 			<processor-class>cn.edu.sdu.cs.starry.taurus.example.TaurusTestWorker</processor-class> 
 			<response-class>cn.edu.sdu.cs.starry.taurus.example.TaurusTestResult</response-class> 
 			</business> -->
+			<!-- 
 		<business name="TestLongQuery">
+		</business> -->
+		<business name="TestLongQueryNoCache">
 		</business>
 	</businesses>
 </business-type>

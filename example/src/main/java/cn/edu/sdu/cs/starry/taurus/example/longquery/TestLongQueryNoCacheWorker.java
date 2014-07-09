@@ -20,9 +20,9 @@ import cn.edu.sdu.cs.starry.taurus.request.QueryRequest;
 import cn.edu.sdu.cs.starry.taurus.response.QueryResponse;
 import cn.edu.sdu.cs.starry.taurus.server.CacheTool;
 
-public class TestLongQueryWorker extends QueryWorker {
+public class TestLongQueryNoCacheWorker extends QueryWorker {
 
-	private Logger LOG = LoggerFactory.getLogger(TestLongQueryWorker.class);
+	private Logger LOG = LoggerFactory.getLogger(TestLongQueryNoCacheWorker.class);
 	
 	//seconds.
 	private static int RESULT_KEEP_TIME = 30 * 60;
@@ -55,86 +55,56 @@ public class TestLongQueryWorker extends QueryWorker {
 		Gson gson = new Gson();
 		TestLongQueryResponse response = new TestLongQueryResponse();
 		String requestId = query.getRequestId();
-		String pageResultKey = requestId + "&result";
 		
 		byte[] cacheInfoBytes = cacheTool.get(requestId);
 		
 		TestCacheInfo cacheInfo = (cacheInfoBytes == null) ? 
 									new TestCacheInfo() : 
 									TestCacheInfo.fromBytes(cacheInfoBytes);
+		//If query.page not equals cacheInfo.page, throw exception. 
+		if(cacheInfo.getCurrentPage() != query.getPage()){
+			if(cacheInfo.isFinished()){
+				throw new BusinessLongQueryFinishedException();
+			}else{
+				LOG.error("It seems that query page was modified manually , which is not allowed in no cache worker !");
+				throw new BusinessProcessException("Page num not fit!");	
+			}
+		}
 
-		pageResultKey += query.getPage();
-		
+									
 		//set the response page.
 		response.setPage(query.getPage());
 		
 		LOG.info("currnet page : "+ cacheInfo.getCurrentPage());
 		LOG.info("Query page : "+ query.getPage());
 		
-		if(query.getPage() < cacheInfo.getCurrentPage()){
-			// get cache.
-			byte[] cachedBytes =  cacheTool.get(pageResultKey) ;
-			if(cachedBytes == null){
-				response.setRecords(null);
-				response.setError("无结果缓存，请重新查询");
-				//MARK set query page to 0?
-//				query.setPage(0);
-//				cacheTool.set(requestId, new TestCacheInfo().toBytes());
-			}else{
-				List<Record> cachedRecords = gson.fromJson( new String( cachedBytes) , 
-						new TypeToken<List<Record>>() {
-							private static final long serialVersionUID = 2360078732644247397L;}.getType()
-						);
-				//TODO refresh cache expire time maybe.
-				response.setRecords(cachedRecords);
-			}
-		}else if(query.getPage() == cacheInfo.getCurrentPage()){
+		if(cacheInfo.getCurrentLeftRecords().size() < query.getPageSize()){
+			//need more.
+			doQuery(cacheTool, cacheInfo, query, response);
 			
-			if(cacheInfo.getCurrentLeftRecords().size() < query.getPageSize()){
-				//need more.
-				doQuery(cacheTool, cacheInfo, query, response);
-				
-			}else{
-				//return cache is enough.
-				List<Record> leftRecords = cacheInfo.getCurrentLeftRecords();
-				List<Record> resultRecords = leftRecords.subList(0, query.getPageSize()); 
-				response.setRecords(resultRecords);
-				
-				//store this page cache.
-				cacheTool.set(pageResultKey , gson.toJson(resultRecords).getBytes(), RESULT_KEEP_TIME);
-				
-				//store left records to cache.
-				cacheInfo.setCurrentLeftRecords(leftRecords.subList(query.getPageSize(), leftRecords.size()));
-			}
+		}else{
+			//return cache is enough.
+			List<Record> leftRecords = cacheInfo.getCurrentLeftRecords();
+			List<Record> resultRecords = leftRecords.subList(0, query.getPageSize()); 
+			response.setRecords(resultRecords);
 			
-			//add pageNum;
-			cacheInfo.setCurrentPage(cacheInfo.getCurrentPage() +1);
-			cacheTool.set(requestId, cacheInfo.toBytes());
-
-			//set query request to next page.
-			query.setPage(cacheInfo.getCurrentPage());
-		}else {
-			//if is finished , throws finished exception
-			if(cacheInfo.isFinished()){
-				throw new BusinessLongQueryFinishedException();
-			}else{
-				//throws cannot query ahead exception.
-				throw new BusinessLongQueryJumpException();
-			}
+			//store left records to cache.
+			cacheInfo.setCurrentLeftRecords(leftRecords.subList(query.getPageSize(), leftRecords.size()));
 		}
 		
+		//add pageNum;
+		cacheInfo.setCurrentPage(cacheInfo.getCurrentPage() +1);
+		cacheTool.set(requestId, cacheInfo.toBytes());
+
+		//set query request to next page.
+		query.setPage(cacheInfo.getCurrentPage());
+			
 		processRate = 1f;
 		
 		return response;
 	}
 	
 	private void doQuery(CacheTool cacheTool, TestCacheInfo cacheInfo, LongQueryRequest query, TestLongQueryResponse response) throws BusinessLongQueryFinishedException{
-		Gson gson = new Gson();
-		
-		String requestId = query.getRequestId();
-		String pageResultKey = requestId + "&result";
-		pageResultKey += query.getPage();
-		
 		int position = cacheInfo.getPosition();
 		List<Record> leftRecords = cacheInfo.getCurrentLeftRecords();
 		
@@ -160,9 +130,6 @@ public class TestLongQueryWorker extends QueryWorker {
 				position ++ ;
 				cacheInfo.setPosition(position);
 				
-				//store this page cache.
-				cacheTool.set(pageResultKey , gson.toJson(leftRecords).getBytes(), RESULT_KEEP_TIME);
-				
 				//store left records to cache.
 				cacheInfo.setCurrentLeftRecords(queryRecords.subList(needRecordNum, queryRecords.size()));
 			}
@@ -178,9 +145,6 @@ public class TestLongQueryWorker extends QueryWorker {
 			response.setRecords(leftRecords);
 			
 			cacheInfo.setFinished(true);
-			
-			//store this page cache.
-			cacheTool.set(pageResultKey , gson.toJson(leftRecords).getBytes(), RESULT_KEEP_TIME);
 			
 			//store left records to cache.
 			cacheInfo.setCurrentLeftRecords(new ArrayList<Record>());

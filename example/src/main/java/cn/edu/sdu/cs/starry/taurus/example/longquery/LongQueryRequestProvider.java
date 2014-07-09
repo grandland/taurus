@@ -23,7 +23,7 @@ public class LongQueryRequestProvider extends BusinessRequestProvider {
 	private boolean enable = false;
 	private Map<String, SingleBusinessConf> businesses ;
 	
-	private List<TestLongQueryRequest> requests;
+	private List<TestLongQueryNoCacheRequest> requests;
 	
 	private int count = 0;
 	
@@ -38,7 +38,8 @@ public class LongQueryRequestProvider extends BusinessRequestProvider {
 		businesses = singleTypeConfig.getBusinesses();
 		requests = new ArrayList<>();
 		for(int i = 0 ; i < 2;i++){
-			TestLongQueryRequest request = new TestLongQueryRequest("LongQuery request No."+i);
+//			TestLongQueryRequest request = new TestLongQueryRequest("LongQuery request No."+i);
+			TestLongQueryNoCacheRequest request = new TestLongQueryNoCacheRequest("LongQuery request No."+i);
 			request.setPageSize(8);
 			requests.add(request);
 		}
