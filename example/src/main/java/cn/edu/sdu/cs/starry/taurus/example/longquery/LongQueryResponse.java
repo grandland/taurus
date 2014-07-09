@@ -1,7 +1,6 @@
 package cn.edu.sdu.cs.starry.taurus.example.longquery;
 
 import cn.edu.sdu.cs.starry.taurus.common.exception.BusinessCorrespondingException;
-import cn.edu.sdu.cs.starry.taurus.response.BaseBusinessResponse;
 import cn.edu.sdu.cs.starry.taurus.response.QueryResponse;
 
 /**

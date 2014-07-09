@@ -1,6 +1,5 @@
 package cn.edu.sdu.cs.starry.taurus.example.longquery;
 
-import java.util.List;
 import java.util.UUID;
 
 import cn.edu.sdu.cs.starry.taurus.common.exception.BusinessCorrespondingException;
