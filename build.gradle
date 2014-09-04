@@ -1,5 +1,9 @@
 apply plugin: 'java'
 
+ext {
+	projectName="taurus"
+}
+
 subprojects {
 
     apply plugin: 'java'
@@ -20,7 +24,10 @@ subprojects {
         options.encoding = 'utf-8'
         options.charSet = 'utf-8'
     }
-
+    
+    jar.baseName = projectName + '-' + jar.baseName
+	
+	
 }
 
 

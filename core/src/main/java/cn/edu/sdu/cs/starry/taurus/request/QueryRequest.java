@@ -1,6 +1,7 @@
 package cn.edu.sdu.cs.starry.taurus.request;
 
 import cn.edu.sdu.cs.starry.taurus.common.exception.BusinessCorrespondingException;
+import cn.edu.sdu.cs.starry.taurus.serialize.SerializeException;
 
 /**
  * This class is for query request with a begin number and a number for paging.
@@ -69,8 +70,7 @@ public abstract class QueryRequest extends BaseBusinessRequest {
     }
 
     @Override
-    public QueryRequest fromBytes(byte[] bytes)
-            throws BusinessCorrespondingException {
+    public QueryRequest fromBytes(byte[] bytes) throws SerializeException{
         return (QueryRequest) super.fromBytes(bytes);
     }
 }

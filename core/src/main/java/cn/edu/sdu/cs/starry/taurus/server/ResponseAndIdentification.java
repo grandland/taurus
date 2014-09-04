@@ -2,6 +2,7 @@ package cn.edu.sdu.cs.starry.taurus.server;
 
 import cn.edu.sdu.cs.starry.taurus.common.RequestIdentification;
 import cn.edu.sdu.cs.starry.taurus.response.BaseBusinessResponse;
+import cn.edu.sdu.cs.starry.taurus.serialize.SerializeException;
 
 /**
  * Encapsulate a businessKey,a response and it's identification.
@@ -21,7 +22,7 @@ public class ResponseAndIdentification {
         this.businessKey = businessKey;
     }
 
-    public byte[] getResponseBytes() {
+    public byte[] getResponseBytes() throws SerializeException {
         return response.toBytes();
     }
 

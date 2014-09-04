@@ -5,6 +5,7 @@ version = '1.0'
 dependencies {
     compile (
         "com.google.code.gson:gson:2.2",
+        "com.esotericsoftware.kryo:kryo:2.24.0",
 
 		"com.google.guava:guava:17.0",
 

@@ -1,7 +1,7 @@
 package cn.edu.sdu.cs.starry.taurus.example.longquery;
 
-import cn.edu.sdu.cs.starry.taurus.common.exception.BusinessCorrespondingException;
 import cn.edu.sdu.cs.starry.taurus.response.QueryResponse;
+import cn.edu.sdu.cs.starry.taurus.serialize.SerializeException;
 
 /**
  * @author SDU.xccui
@@ -19,8 +19,7 @@ public abstract class LongQueryResponse extends QueryResponse {
 	}
 	
     @Override
-    public LongQueryResponse fromBytes(byte[] bytes)
-            throws BusinessCorrespondingException {
+    public LongQueryResponse fromBytes(byte[] bytes) throws SerializeException {
         return (LongQueryResponse) super.fromBytes(bytes);
     }
     

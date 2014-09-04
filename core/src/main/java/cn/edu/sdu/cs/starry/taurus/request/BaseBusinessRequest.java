@@ -1,14 +1,15 @@
 package cn.edu.sdu.cs.starry.taurus.request;
 
-import cn.edu.sdu.cs.starry.taurus.common.DefaultBusinessSerializer;
 import cn.edu.sdu.cs.starry.taurus.common.exception.BusinessRequestAttributeException;
+import cn.edu.sdu.cs.starry.taurus.serialize.BusinessSerializable;
+import cn.edu.sdu.cs.starry.taurus.serialize.SerializeException;
 
 /**
  * This is a base class for all business requests.
  *
  * @author SDU.xccui
  */
-public abstract class BaseBusinessRequest extends DefaultBusinessSerializer {
+public abstract class BaseBusinessRequest extends BusinessSerializable {
     protected String requestKey;
     protected Long sessionId;
     protected String userName;
@@ -28,6 +29,11 @@ public abstract class BaseBusinessRequest extends DefaultBusinessSerializer {
         requestLoad = null;
         requestKey = null;
     }
+    
+    @Override
+	public BaseBusinessRequest fromBytes(byte[] bytes) throws SerializeException{
+		return (BaseBusinessRequest) super.fromBytes(bytes);
+	}
 
     /**
      * Return session id for the request

@@ -17,6 +17,7 @@ import cn.edu.sdu.cs.starry.taurus.processor.QueryWorker;
 import cn.edu.sdu.cs.starry.taurus.request.BaseBusinessRequest;
 import cn.edu.sdu.cs.starry.taurus.request.QueryRequest;
 import cn.edu.sdu.cs.starry.taurus.response.QueryResponse;
+import cn.edu.sdu.cs.starry.taurus.serialize.SerializeException;
 import cn.edu.sdu.cs.starry.taurus.server.BusinessMonitor;
 import cn.edu.sdu.cs.starry.taurus.server.CacheTool;
 
@@ -84,7 +85,7 @@ public class QueryWorkerFactory extends BaseBusinessFactory {
 	@Override
 	public QueryResponse process(String businessKey,
 			BaseBusinessRequest request, BusinessMonitor monitor)
-			throws BusinessException {
+			throws BusinessException, SerializeException {
 		if (!(request instanceof QueryRequest)) {
 			throw new BusinessCorrespondingException();
 		}
@@ -143,7 +144,7 @@ public class QueryWorkerFactory extends BaseBusinessFactory {
 
 	@Override
 	public QueryResponse process(String rpcRequestKey, byte[] rpcRequestBytes,
-			BusinessMonitor monitor) throws BusinessException {
+			BusinessMonitor monitor) throws BusinessException, SerializeException {
 		QueryRequest query = requestMap.get(rpcRequestKey).fromBytes(rpcRequestBytes);
 		return process(rpcRequestKey, query, monitor);
 	}

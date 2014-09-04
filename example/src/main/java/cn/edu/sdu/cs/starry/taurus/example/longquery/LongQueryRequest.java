@@ -6,6 +6,7 @@ import java.util.UUID;
 import cn.edu.sdu.cs.starry.taurus.common.exception.BusinessCorrespondingException;
 import cn.edu.sdu.cs.starry.taurus.request.QueryRequest;
 import cn.edu.sdu.cs.starry.taurus.request.RequestInfo;
+import cn.edu.sdu.cs.starry.taurus.serialize.SerializeException;
 
 /**
  * This class is for long query request with 
@@ -110,8 +111,7 @@ public abstract class LongQueryRequest extends QueryRequest{
     }
     
     @Override
-    public LongQueryRequest fromBytes(byte[] bytes)
-            throws BusinessCorrespondingException {
+    public LongQueryRequest fromBytes(byte[] bytes) throws SerializeException {
         return (LongQueryRequest) super.fromBytes(bytes);
     }
     

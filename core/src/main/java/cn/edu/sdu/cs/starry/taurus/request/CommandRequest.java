@@ -1,6 +1,7 @@
 package cn.edu.sdu.cs.starry.taurus.request;
 
 import cn.edu.sdu.cs.starry.taurus.common.exception.BusinessCorrespondingException;
+import cn.edu.sdu.cs.starry.taurus.serialize.SerializeException;
 
 /**
  * This class is for async request.
@@ -32,8 +33,7 @@ public abstract class CommandRequest extends BaseBusinessRequest {
     }
 
     @Override
-    public CommandRequest fromBytes(byte[] bytes)
-            throws BusinessCorrespondingException {
+    public CommandRequest fromBytes(byte[] bytes) throws SerializeException {
         return (CommandRequest) super.fromBytes(bytes);
     }
 }

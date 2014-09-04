@@ -2,6 +2,7 @@ package cn.edu.sdu.cs.starry.taurus.server;
 
 import cn.edu.sdu.cs.starry.taurus.common.RequestIdentification;
 import cn.edu.sdu.cs.starry.taurus.request.BaseBusinessRequest;
+import cn.edu.sdu.cs.starry.taurus.serialize.SerializeException;
 
 /**
  * Encapsulate a businessKey, a {@link BaseBusinessRequest} (or a {@code byte[]}
@@ -32,7 +33,7 @@ public class RequestAndIdentification {
 		this.businessKey = businessKey;
 	}
 
-	public byte[] getRequestBytes() {
+	public byte[] getRequestBytes() throws SerializeException {
 		if (null != requestBytes) {
 			return requestBytes;
 		} else if (null != request) {
