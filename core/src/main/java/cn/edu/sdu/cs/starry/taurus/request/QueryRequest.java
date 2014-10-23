@@ -1,6 +1,5 @@
 package cn.edu.sdu.cs.starry.taurus.request;
 
-import cn.edu.sdu.cs.starry.taurus.common.exception.BusinessCorrespondingException;
 import cn.edu.sdu.cs.starry.taurus.serialize.SerializeException;
 
 /**

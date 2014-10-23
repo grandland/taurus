@@ -16,6 +16,21 @@ subprojects {
         mavenCentral()
     }
 
+    jar.baseName = projectName + '-' + jar.baseName
+	
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+    
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+    artifacts {
+        archives sourcesJar
+        //archives javadocJar
+    }
     tasks.withType(JavaCompile){
         options.encoding = 'utf-8'
     }
@@ -25,7 +40,6 @@ subprojects {
         options.charSet = 'utf-8'
     }
     
-    jar.baseName = projectName + '-' + jar.baseName
 	
 	
 }

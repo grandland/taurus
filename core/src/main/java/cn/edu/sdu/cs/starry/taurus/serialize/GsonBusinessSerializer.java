@@ -3,7 +3,7 @@ package cn.edu.sdu.cs.starry.taurus.serialize;
 import cn.edu.sdu.cs.starry.taurus.common.SerializeUtil;
 
 import com.google.gson.Gson;
-import com.sun.xml.internal.ws.encoding.soap.SerializationException;
+
 /**
  * Default business serializer using Gson implemented.
  * @author ytchen*/
@@ -20,7 +20,7 @@ public class GsonBusinessSerializer implements BusinessSerializer{
 		try{
 			result = SerializeUtil.toBytesFromString(gson.toJson(o));
 		} catch (Exception e){
-			throw new SerializationException(e);
+			throw new SerializeException(e);
 		}
 		return result;
 	}
@@ -31,7 +31,7 @@ public class GsonBusinessSerializer implements BusinessSerializer{
 		try{
 			content = SerializeUtil.toStringFromBytes(bytes);
 		} catch (Exception e){
-			throw new SerializationException(e);
+			throw new SerializeException(e);
 		}
 		return gson.fromJson(content, clazz);
 	}
