@@ -46,7 +46,7 @@ public class SingleBusinessTypeHandler implements Runnable {
                                       String taurusServerName, int shutdownWait) {
         shouldStop = false;
         isOverloading = false;
-        //monitorMap = new ConcurrentHashMap<UUID, BusinessMonitor>();
+//        monitorMap = new ConcurrentHashMap<UUID, BusinessMonitor>();
         monitorMap = BusinessMonitorManager.getBusinessMonitorManager().getMonitorMap(businessType);
         this.businessType = businessType;
         this.requestProvider = requestProvider;

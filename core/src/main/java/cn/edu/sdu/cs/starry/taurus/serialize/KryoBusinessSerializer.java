@@ -31,7 +31,7 @@ public class KryoBusinessSerializer implements BusinessSerializer{
 	
 	/**
 	 * Kryo is not thread-safe, so we use ThreadLocal.*/
-	class KryoThreadLocal extends ThreadLocal<Kryo>{
+	private static class KryoThreadLocal extends ThreadLocal<Kryo>{
 		@Override
 		protected Kryo initialValue() {
 			return new Kryo();

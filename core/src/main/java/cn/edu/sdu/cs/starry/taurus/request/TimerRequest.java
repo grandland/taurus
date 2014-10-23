@@ -61,4 +61,10 @@ public class TimerRequest extends BaseBusinessRequest {
         return genUniqueRequestKey();
     }
 
+	@Override
+	public String toString() {
+		return "TimerRequest [lastRequestTime=" + lastRequestTime
+				+ ", interval=" + interval + ", currentTime=" + currentTime
+				+ "]";
+	}
 }

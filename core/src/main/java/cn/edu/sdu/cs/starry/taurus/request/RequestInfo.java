@@ -43,4 +43,10 @@ public class RequestInfo {
         this.userIp = userIp;
     }
 
+	@Override
+	public String toString() {
+		return "RequestInfo [sessionId=" + sessionId + ", userName=" + userName
+				+ ", userIp=" + userIp + "]";
+	}
+
 }

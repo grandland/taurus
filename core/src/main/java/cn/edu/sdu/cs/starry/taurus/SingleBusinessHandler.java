@@ -94,8 +94,10 @@ public class SingleBusinessHandler implements Runnable {
             monitor = requestAndIndentification.getMonitor();
             if (null != monitor) {
                 monitor.setUUID(uniqueId);
+                monitorMap.put(uniqueId, monitor);
             }
-            monitorMap.put(uniqueId, monitor);
+            //The following line should be up there in the if cause. Here will throw NullPointerException if monitor == null
+//            monitorMap.put(uniqueId, monitor);
             try {
                 if (null != requestAndIndentification.getRequest()) {
                     response = businessProcessor.process(

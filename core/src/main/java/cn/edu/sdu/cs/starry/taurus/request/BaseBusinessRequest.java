@@ -55,8 +55,15 @@ public abstract class BaseBusinessRequest extends BusinessSerializable {
     public final long getVersion() {
         return version;
     }
+    
+    @Override
+	public String toString() {
+		return "BaseBusinessRequest [requestKey=" + requestKey + ", sessionId="
+				+ sessionId + ", userName=" + userName + ", userIP=" + userIP
+				+ ", version=" + version + ", requestLoad=" + requestLoad + "]";
+	}
 
-    /**
+	/**
      * Do base self content check and correct attribute if possible.<br/>
      * This method can be used in front.
      *

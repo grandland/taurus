@@ -50,7 +50,9 @@ public class BusinessMonitorManager {
 	 * */
 	public Map<UUID,BusinessMonitor> getMonitorMap(BusinessType businessType){
 		Map<UUID,BusinessMonitor> monitorMap = monitorMaps.get(businessType);
+		LOG.debug("MonitorMap :[{}] for BusinessType [{}]", monitorMap, businessType);
 		if(null == monitorMap){
+			LOG.debug("MonitorMap [{}] for BusinessType [{}] is null. Will create one", monitorMap, businessType);
 			monitorMap = createMonitorMap(businessType);
 		}
 		return monitorMap;

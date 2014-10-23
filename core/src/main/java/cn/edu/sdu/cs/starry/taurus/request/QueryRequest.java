@@ -72,4 +72,10 @@ public abstract class QueryRequest extends BaseBusinessRequest {
     public QueryRequest fromBytes(byte[] bytes) throws SerializeException{
         return (QueryRequest) super.fromBytes(bytes);
     }
+
+	@Override
+	public String toString() {
+		return "QueryRequest [beginNumber=" + beginNumber + ", number="
+				+ number + ", autoCache=" + autoCache + "]";
+	}
 }

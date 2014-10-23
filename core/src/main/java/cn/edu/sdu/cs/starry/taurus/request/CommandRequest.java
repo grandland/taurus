@@ -35,4 +35,11 @@ public abstract class CommandRequest extends BaseBusinessRequest {
     public CommandRequest fromBytes(byte[] bytes) throws SerializeException {
         return (CommandRequest) super.fromBytes(bytes);
     }
+
+	@Override
+	public String toString() {
+		return "CommandRequest [requestKey=" + requestKey + ", sessionId="
+				+ sessionId + ", userName=" + userName + ", userIP=" + userIP
+				+ ", version=" + version + "]";
+	}
 }
