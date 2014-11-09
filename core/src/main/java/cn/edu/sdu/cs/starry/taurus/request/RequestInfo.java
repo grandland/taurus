@@ -4,7 +4,7 @@ package cn.edu.sdu.cs.starry.taurus.request;
  * This class is for basic request information.
  */
 public class RequestInfo {
-    private Long sessionId;
+    private String sessionId;
     private String userName;
     private String userIp;
 
@@ -12,18 +12,18 @@ public class RequestInfo {
         super();
     }
 
-    public RequestInfo(Long sessionId, String userName, String userIp) {
+    public RequestInfo(String sessionId, String userName, String userIp) {
         super();
         this.sessionId = sessionId;
         this.userName = userName;
         this.userIp = userIp;
     }
 
-    public Long getSessionId() {
+    public String getSessionId() {
         return sessionId;
     }
 
-    public void setSessionId(Long sessionId) {
+    public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
     }
 

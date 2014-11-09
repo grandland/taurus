@@ -11,13 +11,13 @@ import cn.edu.sdu.cs.starry.taurus.serialize.SerializeException;
  */
 public abstract class BaseBusinessRequest extends BusinessSerializable {
     protected String requestKey;
-    protected Long sessionId;
+    protected String sessionId;
     protected String userName;
     protected String userIP;
     protected long version = System.currentTimeMillis();
     private Integer requestLoad;
 
-    public BaseBusinessRequest(Long sessionId, String userName, String userIP) {
+    public BaseBusinessRequest(String sessionId, String userName, String userIP) {
         this();
         this.sessionId = sessionId;
         this.userName = userName;
@@ -40,7 +40,7 @@ public abstract class BaseBusinessRequest extends BusinessSerializable {
      *
      * @return <code>null</code> if sessionId is not set yet
      */
-    public final Long getSessionId() {
+    public final String getSessionId() {
         return sessionId;
     }
 
