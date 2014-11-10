@@ -8,7 +8,7 @@ import com.esotericsoftware.kryo.io.Output;
  * Serializer using kryo*/
 public class KryoBusinessSerializer implements BusinessSerializer{
 
-	private static final int bufferSize = 1024 * 1024;
+	private static final int bufferSize = 1024 * 1024 * 128;
 
 	private KryoThreadLocal kryoLocal = new KryoThreadLocal();
 	
