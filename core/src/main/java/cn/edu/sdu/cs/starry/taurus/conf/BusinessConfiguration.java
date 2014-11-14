@@ -41,11 +41,11 @@ public class BusinessConfiguration {
     /**
      * new a BusinessConfiguration from default file path ,which is conf/taurus/taurus-conf.xml
      */
-    public BusinessConfiguration() throws BusinessConfigurationException {
-        this(TAURUS_CONF_FILE);
+    public BusinessConfiguration(String serverName) throws BusinessConfigurationException {
+        this(serverName,TAURUS_CONF_FILE);
     }
 
-    public BusinessConfiguration(String path) throws BusinessConfigurationException {
+    public BusinessConfiguration(String serverName,String path) throws BusinessConfigurationException {
         businessTypeConfMap = new HashMap<String, BusinessConfiguration.BusinessTypeConf>();
         businessConfMap = new HashMap<String, SingleBusinessTypeConfiguration>();
         listenerList = new LinkedList<String>();
@@ -134,8 +134,8 @@ public class BusinessConfiguration {
                     }
                 } else if ("cache-hosts".equals(element.getTagName())) {
                     cacheHosts = ConfigurationUtil.genStringValue(element);
-                } else if ("server-name".equals(element.getTagName())) {
-                    serverName = ConfigurationUtil.genStringValue(element);
+//                } else if ("server-name".equals(element.getTagName())) {
+//                    serverName = ConfigurationUtil.genStringValue(element);
                 } else if ("shutdown-wait".equals(element.getTagName())) {
                     shutdownWait = ConfigurationUtil.genIntValue(element);
                 } else if ("listeners".equals(element.getTagName())) {

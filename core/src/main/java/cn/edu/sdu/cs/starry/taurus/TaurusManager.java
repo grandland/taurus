@@ -49,38 +49,38 @@ public class TaurusManager {
 	/**
 	 * Start the Taurus using default configuration file path.<br>
 	 * @throws BusinessException if starting with error*/
-	public void startTaurus() throws BusinessException{
+	public void startTaurus(String serverName) throws BusinessException{
 		LOG.info("Command from Taurus Manager : " +
 				"start taurus using default configuration file path");
-		taurus.start();
+		taurus.start(serverName);
 	}
 	/**
 	 * Start the Taurus using given path as configuration file path.<br>
 	 * @param path configuration file path
 	 * @throws BusinessException if starting with error*/
-	public void startTaurus(String path) throws BusinessException{
+	public void startTaurus(String serverName,String path) throws BusinessException{
 		LOG.info("Command from Taurus Manager : " +
 				"start taurus using configuration file path:"+path);
-		taurus.start(path);
+		taurus.start(serverName,path);
 	}
 	
 	/**
 	 * Restart the Taurus using default configuration file path.<br>
 	 * @throws BusinessException if starting with error*/
-	public void restartTaurus() throws BusinessException{
+	public void restartTaurus(String serverName) throws BusinessException{
 		LOG.info("Command from Taurus Manager : " +
 				"restart taurus using default configuration file path");
-		taurus.restart();
+		taurus.restart(serverName);
 	}
 	
 	/**
 	 * Restart the Taurus using given path as configuration file path.<br>
 	 * @param path configuration file path
 	 * @throws BusinessException if starting with error*/
-	public void restartTaurus(String path) throws BusinessException{
+	public void restartTaurus(String serverName,String path) throws BusinessException{
 		LOG.info("Command from Taurus Manager : " +
 				"restart taurus using configuration file path:"+path);
-		taurus.restart(path);
+		taurus.restart(serverName,path);
 	}
 	
 	/**

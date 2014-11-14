@@ -43,6 +43,7 @@ public class Taurus {
     private static Taurus starryTaurus;
     private Thread shutdownHook;
 
+    
     private Taurus() {}
 
     protected static Taurus getTaurus() {
@@ -174,12 +175,12 @@ public class Taurus {
      *
      * @throws BusinessException
      */
-    protected void start() throws BusinessException {
-        startTaurus(loadConfiguration());
+    protected void start(String serverName) throws BusinessException {
+        startTaurus(loadConfiguration(serverName));
     }
 
-    protected void start(String path) throws BusinessException {
-        startTaurus(loadConfiguration(path));
+    protected void start(String serverName,String path) throws BusinessException {
+        startTaurus(loadConfiguration(serverName,path));
     }
 
     /**
@@ -187,14 +188,14 @@ public class Taurus {
      *
      * @throws BusinessConfigurationException
      */
-    private BusinessConfiguration loadConfiguration() throws BusinessConfigurationException {
-        BusinessConfiguration configuration = new BusinessConfiguration();
+    private BusinessConfiguration loadConfiguration(String serverName) throws BusinessConfigurationException {
+        BusinessConfiguration configuration = new BusinessConfiguration(serverName);
         configuration.loadConfig(BusinessType.values());
         return configuration;
     }
 
-    protected BusinessConfiguration loadConfiguration(String path) throws BusinessConfigurationException {
-        BusinessConfiguration configuration = new BusinessConfiguration(path);
+    protected BusinessConfiguration loadConfiguration(String serverName,String path) throws BusinessConfigurationException {
+        BusinessConfiguration configuration = new BusinessConfiguration(serverName,path);
         configuration.loadConfig(BusinessType.values());
         return configuration;
     }
@@ -217,11 +218,11 @@ public class Taurus {
         return infos;
     }
 
-    protected void restart() throws BusinessException {
-        restart(null);
+    protected void restart(String serverName) throws BusinessException {
+        restart(serverName,null);
     }
 
-    protected void restart(String path) throws BusinessException {
+    protected void restart(String serverName,String path) throws BusinessException {
         //clear first.
     	LOG.info("Received restart Taurus command");
         clearTaurus();
@@ -241,9 +242,9 @@ public class Taurus {
         prepareRestart();
         //start using new configuration file.Default if undefined.
         if (null == path) {
-            start();
+            start(serverName);
         } else {
-            start(path);
+            start(serverName,path);
         }
     }
 
@@ -291,15 +292,15 @@ public class Taurus {
     }
 
     public static void main(String[] args) {
-        if (args.length < 1) {
-            System.err.println("Usage: StarryTaurus start | info");
+        if (args.length < 2) {
+            System.err.println("Usage: StarryTaurus start | info [serverName]");
             System.exit(1);
         }
         try {
             if (args[0].equals("start") || args[0].equals("info")) {
                 Taurus starryTaurus = Taurus.getTaurus();
                 if (args[0].equals("info")) {
-                    BusinessConfiguration configuration = starryTaurus.loadConfiguration();
+                    BusinessConfiguration configuration = starryTaurus.loadConfiguration(args[1]);
                     SingleBusinessTypeConfiguration singleTypeConfiguration;
                     configuration.printServerInfo();
                     for (BusinessType businessType : BusinessType.values()) {
@@ -315,7 +316,7 @@ public class Taurus {
                     System.exit(0);
                 }
                 if (args[0].equals("start")) {
-                    starryTaurus.start();
+                    starryTaurus.start(args[1]);
                 }
             }
         } catch (BusinessException e) {
