@@ -46,6 +46,7 @@ public class BusinessConfiguration {
     }
 
     public BusinessConfiguration(String serverName,String path) throws BusinessConfigurationException {
+    	this.serverName = serverName;
         businessTypeConfMap = new HashMap<String, BusinessConfiguration.BusinessTypeConf>();
         businessConfMap = new HashMap<String, SingleBusinessTypeConfiguration>();
         listenerList = new LinkedList<String>();
