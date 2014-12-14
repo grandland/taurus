@@ -316,7 +316,11 @@ public class Taurus {
                     System.exit(0);
                 }
                 if (args[0].equals("start")) {
-                    starryTaurus.start(args[1]);
+                	if(args[2] != null){
+                		starryTaurus.start(args[1],args[2]);
+                	} else {
+                        starryTaurus.start(args[1]);
+                	}
                 }
             }
         } catch (BusinessException e) {
