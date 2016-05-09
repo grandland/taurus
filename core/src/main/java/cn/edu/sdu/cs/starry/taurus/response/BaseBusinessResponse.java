@@ -8,9 +8,8 @@ import cn.edu.sdu.cs.starry.taurus.serialize.SerializeException;
  */
 public abstract class BaseBusinessResponse extends BusinessSerializable{
 
-	@Override
 	public BaseBusinessResponse fromBytes(byte[] bytes) throws SerializeException{
-		return (BaseBusinessResponse) super.fromBytes(bytes);
+		return (BaseBusinessResponse) super.fromBytes(bytes, getClass());
 	}
 	
 }

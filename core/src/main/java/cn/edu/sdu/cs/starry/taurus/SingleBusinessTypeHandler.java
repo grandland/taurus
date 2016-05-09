@@ -78,6 +78,14 @@ public class SingleBusinessTypeHandler implements Runnable {
         RequestAndIdentification requestAndIndentification;
         UUID uniqueId;
         try {
+            // start response handler
+            responseHandler.start();
+        } catch (BusinessResponseHandlerException e) {
+            e.printStackTrace();
+            LOG.error("Error starting response handler, will stop.", e);
+            stop();
+        }
+        try {
             requestProvider.prepare(singleTypeConfig);
             requestProvider.start();
         } catch (BusinessRequestProviderException ex) {

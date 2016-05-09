@@ -57,7 +57,7 @@ public class CommandProcessorFactory extends BaseBusinessFactory {
                                 singleBusinessConf.getName(), processorClass,
                                 singleTypeConfiguration.getProcessors()));
                 BusinessTypeManager.businessTypeMap.put(
-                        singleBusinessConf.getName(), BusinessType.COMMAND);
+                        singleBusinessConf.getKey(), BusinessType.COMMAND);
 
             }
             processorPool = new AsyncProcessorPool(resource);

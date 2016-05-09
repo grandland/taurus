@@ -29,10 +29,9 @@ public abstract class BaseBusinessRequest extends BusinessSerializable {
         requestLoad = null;
         requestKey = null;
     }
-    
-    @Override
+
 	public BaseBusinessRequest fromBytes(byte[] bytes) throws SerializeException{
-		return (BaseBusinessRequest) super.fromBytes(bytes);
+		return (BaseBusinessRequest) super.fromBytes(bytes, getClass());
 	}
 
     /**

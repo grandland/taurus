@@ -45,7 +45,7 @@ public class TimerProcessorFactory extends BaseBusinessFactory {
                                     singleTypeConfiguration.getProcessors())
                                     .getClass());
             BusinessTypeManager.businessTypeMap.put(
-                    singleBusinessConf.getName(), BusinessType.TIMER);
+                    singleBusinessConf.getKey(), BusinessType.TIMER);
         }
     }
 

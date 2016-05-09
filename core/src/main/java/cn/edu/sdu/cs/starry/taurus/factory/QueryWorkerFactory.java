@@ -54,17 +54,17 @@ public class QueryWorkerFactory extends BaseBusinessFactory {
 				processorClass = singleBusinessConf.getProcessorClass();
 				responseClass = singleBusinessConf.getResponseClass();
 				requestMap.put(
-						singleBusinessConf.getName(),
+						singleBusinessConf.getKey(),
 						(QueryRequest) genConfObject("request",
 								singleBusinessConf.getName(), requestClass,
 								singleTypeConfiguration.getRequests()));
 				resultMap.put(
-						singleBusinessConf.getName(),
+						singleBusinessConf.getKey(),
 						(QueryResponse) genConfObject("response",
 								singleBusinessConf.getName(), responseClass,
 								singleTypeConfiguration.getResponses()));
 				departmentMap
-						.put(singleBusinessConf.getName(), WorkerDepartment
+						.put(singleBusinessConf.getKey(), WorkerDepartment
 								.buildNewDepartment(
 										(QueryWorker) genConfObject("processor",
 												singleBusinessConf.getName(),
@@ -75,7 +75,7 @@ public class QueryWorkerFactory extends BaseBusinessFactory {
 												.getFactoryResource(),
 										cacheTool));
 				BusinessTypeManager.businessTypeMap.put(
-						singleBusinessConf.getName(), BusinessType.QUERY);
+						singleBusinessConf.getKey(), BusinessType.QUERY);
 			}
 		} catch (Exception ex) {
 			throw new BusinessCorrespondingException(ex);

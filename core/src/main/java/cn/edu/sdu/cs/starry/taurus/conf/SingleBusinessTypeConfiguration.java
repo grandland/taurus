@@ -326,6 +326,13 @@ public class SingleBusinessTypeConfiguration {
                     "Bad conf file: duplicate config for business '" + name
                             + "'");
         }
+        String key = name;
+        if (!root.hasAttribute("key")){
+            LOG.warn("<business> attribute 'key' is not set, will use 'name' instead.");
+        } else {
+            key = root.getAttribute("key").trim();
+        }
+
         if (!(name.length() > 0)) {
             throw new BusinessConfigurationException(
                     "Bad conf file: "
@@ -334,6 +341,7 @@ public class SingleBusinessTypeConfiguration {
         }
         SingleBusinessConf singleBusinessConf = new SingleBusinessConf();
         singleBusinessConf.name = name;
+        singleBusinessConf.key = key;
         String intervalStr = root.getAttribute("interval");
         if (null != intervalStr && intervalStr.length() > 0) {
             try {
@@ -438,6 +446,7 @@ public class SingleBusinessTypeConfiguration {
 
     public static class SingleBusinessConf {
         String name;
+        String key;
         Long delay;
         Long interval;
         String requestClass;
@@ -446,6 +455,7 @@ public class SingleBusinessTypeConfiguration {
 
         public SingleBusinessConf() {
             name = null;
+            key = null;
             delay = null;
             interval = null;
             requestClass = null;
@@ -480,6 +490,10 @@ public class SingleBusinessTypeConfiguration {
 
         public Long getDelay() {
             return delay;
+        }
+
+        public String getKey() {
+            return key;
         }
     }
 }

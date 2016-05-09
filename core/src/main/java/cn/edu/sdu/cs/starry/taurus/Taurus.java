@@ -316,7 +316,7 @@ public class Taurus {
                     System.exit(0);
                 }
                 if (args[0].equals("start")) {
-                	if(args[2] != null){
+                	if(args.length > 2 ){
                 		starryTaurus.start(args[1],args[2]);
                 	} else {
                         starryTaurus.start(args[1]);

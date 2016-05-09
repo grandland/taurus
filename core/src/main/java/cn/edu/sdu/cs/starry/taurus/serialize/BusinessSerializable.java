@@ -16,7 +16,7 @@ public abstract class BusinessSerializable {
 		return serializer.toBytes(this);
 	}
 	
-	public BusinessSerializable fromBytes(byte[] bytes) throws SerializeException{
-		return serializer.fromBytes(bytes,this.getClass());
+	public BusinessSerializable fromBytes(byte[] bytes, Class<? extends BusinessSerializable> clazz) throws SerializeException{
+		return serializer.fromBytes(bytes, clazz);
 	}
 }

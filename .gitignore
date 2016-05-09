@@ -16,3 +16,8 @@
 bin/
 build/
 */build/
+
+# idea #
+/.idea/
+*/.idea/
+*.iml

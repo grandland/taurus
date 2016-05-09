@@ -24,7 +24,15 @@ public class KryoBusinessSerializer implements BusinessSerializer{
 	public <T> T fromBytes(byte[] bytes, Class<T> clazz)
 			throws SerializeException {
 		Input input = new Input(bytes);
-		T object  =  kryoLocal.get().readObject(input, clazz);
+		Kryo kryo = kryoLocal.get();
+		kryo.setClassLoader(clazz.getClassLoader());
+		try{
+			Class.forName("grandland.glits.business.response.sync.BaseQueryResult");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		T object = kryo.readObject(input, clazz);
 		input.close();
 		return object;
 	}
@@ -34,7 +42,8 @@ public class KryoBusinessSerializer implements BusinessSerializer{
 	private static class KryoThreadLocal extends ThreadLocal<Kryo>{
 		@Override
 		protected Kryo initialValue() {
-			return new Kryo();
+			Kryo kryo = new Kryo();
+			return kryo;
 		}
 	}
 }
