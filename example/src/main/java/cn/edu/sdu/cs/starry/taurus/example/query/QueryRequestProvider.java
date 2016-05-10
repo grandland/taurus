@@ -72,6 +72,7 @@ public class QueryRequestProvider extends BusinessRequestProvider {
 						key, new SimpleDateFormat(
 								"yyyy-MM-dd HH:mm:ss").format(new Date(
 								System.currentTimeMillis()))),key);
+
 		requestAndIndentification.createInnerMonitor(2000, -1, reporter);
 		return requestAndIndentification;
 	}

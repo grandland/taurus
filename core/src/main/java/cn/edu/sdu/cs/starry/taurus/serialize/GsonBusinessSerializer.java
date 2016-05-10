@@ -3,6 +3,7 @@ package cn.edu.sdu.cs.starry.taurus.serialize;
 import cn.edu.sdu.cs.starry.taurus.common.SerializeUtil;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  * Default business serializer using Gson implemented.
@@ -12,7 +13,8 @@ public class GsonBusinessSerializer implements BusinessSerializer{
 	/**
 	 * Gson should be <a href='https://groups.google.com/forum/#!topic/google-gson/Vju1HuJJUIE'>thread-safe</a>
 	 * , so we do not need t protect this instance.<br/> */
-	private static final Gson gson = new Gson();
+	private static final Gson gson = new GsonBuilder().setExclusionStrategies(new GsonExcludeStrategy()).create();
+
 	
 	@Override
 	public byte[] toBytes(Object o) throws SerializeException{
