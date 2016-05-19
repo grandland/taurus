@@ -14,9 +14,9 @@ public class SerializationTest {
         TestQueryRequest testQueryRequest = new TestQueryRequest();
         testQueryRequest.setName("Hello");
         byte[] bytes = testQueryRequest.toBytes();
-//        TestQueryRequest query2 = (TestQueryRequest) TestQueryRequest.class.newInstance().fromBytes(bytes);
-        System.out.println(new String(bytes,"UTF-8"));
-        TestQueryRequest query2 = new Gson().fromJson(new String(bytes,"UTF-8"),TestQueryRequest.class);
+        TestQueryRequest query2 = (TestQueryRequest) TestQueryRequest.class.newInstance().fromBytes(bytes);
+//        System.out.println(new String(bytes,"UTF-8"));
+//        TestQueryRequest query2 = new Gson().fromJson(new String(bytes,"UTF-8"),TestQueryRequest.class);
         System.out.println(query2);
     }
 }
