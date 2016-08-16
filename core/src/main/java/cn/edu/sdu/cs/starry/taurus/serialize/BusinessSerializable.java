@@ -20,7 +20,6 @@ public abstract class BusinessSerializable {
 	}
 	
 	public BusinessSerializable fromBytes(byte[] bytes, Class<? extends BusinessSerializable> clazz) throws SerializeException{
-		System.out.println(clazz);
 		return _serializer.fromBytes(bytes, clazz);
 	}
 }

@@ -47,7 +47,7 @@ public abstract class QueryRequest extends BaseBusinessRequest {
      *
      * @param withSessionId put sessionId in this key or not
      * @param withPage      put page info in this key or not
-     * @return{@code null} if cache is disabled
+     * @return <code>null</code> if cache is disabled
      */
     public String getRequestKey(boolean withSessionId, boolean withPage) {
         if (null == requestKey) {
