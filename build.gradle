@@ -17,6 +17,7 @@ subprojects {
     jar.baseName = projectName + '-' + jar.baseName
 	
     task sourcesJar(type: Jar, dependsOn: classes) {
+        baseName = jar.baseName
         classifier = 'sources'
         from sourceSets.main.allSource
     }
