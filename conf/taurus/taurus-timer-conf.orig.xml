@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<business-type name="TIMER" enable="false">
+	<factory-resource>
+	   100
+	</factory-resource>
+	<sleep-time>
+	    5000
+	</sleep-time>
+	<request-provider>
+		<class>cn.edu.sdu.cs.starry.taurus.example.TimerRequestProvider</class>
+		<description>SimpleRequestProvider</description>		
+	</request-provider>
+	<reporter>
+		<class>cn.edu.sdu.cs.starry.taurus.example.SystemReporter</class>
+		<description>SystemReporter</description>
+	</reporter>
+	<response-handler>
+		<class>cn.edu.sdu.cs.jnits.nrmqservice.server.timer.TimeResponseHandler</class>
+		<description>SimpleResponseHandler</description>
+	</response-handler>
+	<requests>
+		<default-class>cn.edu.sdu.cs.starry.taurus.request.TimerRequest</default-class>
+	</requests>
+	<processors>
+		<default-class>cn.edu.sdu.cs.starry.taurus.example.TaurusTestWorker</default-class>
+		<base-path>cn.edu.sdu.cs.jnits.business.processor.timer</base-path>
+		<suffix>Processor</suffix>
+	</processors>
+	<responses>
+		<default-class>cn.edu.sdu.cs.starry.taurus.example.TaurusTestResult</default-class>
+		<base-path>cn.edu.sdu.cs.jnits.business.response.timer</base-path>
+		<suffix>Response</suffix>
+	</responses>
+	<businesses>
+		<business name="EHLMapUpdate" interval="3600000" tip="1_hour" delay="10000"></business>
+		<business name="DuplicatePlatePush" interval="600000" tip="10_min" delay="3000"></business>
+		<business name="LayoutPeriodicallyUpdate" interval="300000" tip="5_min" delay="1000"></business>
+	</businesses>
+</business-type>

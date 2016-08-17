@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<business-type name="COMMAND" enable="false">
+	<factory-resource>
+		100
+	</factory-resource>
+	<sleep-time>
+		5000
+	</sleep-time>
+	<request-provider>
+		<class>cn.edu.sdu.cs.starry.taurus.example.command.CommandRequestProvider
+		</class>
+		<description>SimpleRequestProvider</description>
+	</request-provider>
+	<reporter>
+		<class>cn.edu.sdu.cs.starry.taurus.example.SystemReporter</class>
+		<description>SystemReporter</description>
+	</reporter>
+	<response-handler>
+		<class>cn.edu.sdu.cs.starry.taurus.example.TestAllResponseHandler
+		</class>
+		<description>SimpleResponseHandler</description>
+	</response-handler>
+
+
+	<requests>
+		<default-class>cn.edu.sdu.cs.starry.taurus.example.command.TestCommandRequest
+		</default-class>
+		<base-path>cn.edu.sdu.cs.starry.taurus.example.command</base-path>
+		<prefix></prefix>
+		<suffix>Request</suffix>
+	</requests>
+	<processors>
+		<default-class>cn.edu.sdu.cs.starry.taurus.example.command.TestCommandProcessor
+		</default-class>
+		<base-path>cn.edu.sdu.cs.starry.taurus.example.command</base-path>
+		<prefix></prefix>
+		<suffix>Processor</suffix>
+	</processors>
+	<responses>
+		<default-class>cn.edu.sdu.cs.starry.taurus.example.command.TestCommandResponse
+		</default-class>
+		<base-path>cn.edu.sdu.cs.starry.taurus.example.command</base-path>
+		<prefix></prefix>
+		<suffix>Response</suffix>
+	</responses>
+	<businesses>
+		<business name="TestCommand" />
+	</businesses>
+</business-type>

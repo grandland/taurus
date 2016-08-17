@@ -1,6 +1,23 @@
 *.class
 
 # Package Files #
-*.jar
 *.war
 *.ear
+
+# Eclipse Files#
+.project
+.classpath
+.settings/
+
+# Gradle #
+.gradle/
+
+# bin #
+bin/
+build/
+*/build/
+
+# idea #
+/.idea/
+*/.idea/
+*.iml

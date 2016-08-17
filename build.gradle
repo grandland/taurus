@@ -1,0 +1,49 @@
+apply plugin: 'java'
+
+ext {
+	projectName="taurus"
+}
+
+subprojects {
+
+    apply plugin: 'java'
+    sourceCompatibility=1.7  
+
+    repositories{
+        flatDir{dirs "../lib"}
+        mavenCentral()
+    }
+
+    jar.baseName = projectName + '-' + jar.baseName
+	
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        baseName = jar.baseName
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+    
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+    artifacts {
+        archives sourcesJar
+        //archives javadocJar
+    }
+    tasks.withType(JavaCompile){
+        options.encoding = 'utf-8'
+    }
+
+    tasks.withType(Javadoc){
+        options.encoding = 'utf-8'
+        options.charSet = 'utf-8'
+    }
+    
+	
+	
+}
+
+
+task wrapper(type: Wrapper){
+    gradleVersion = '1.10'
+}

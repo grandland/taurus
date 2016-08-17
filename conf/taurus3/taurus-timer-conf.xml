@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<business-type name="TIMER" enable="false">
+	<factory-resource>
+	   100
+	</factory-resource>
+	<sleep-time>
+	    5000
+	</sleep-time>
+	<request-provider>
+		<class>cn.edu.sdu.cs.starry.taurus.example.timer.TimerRequestProvider</class>
+		<description>SimpleRequestProvider</description>		
+	</request-provider>
+	<reporter>
+		<class>cn.edu.sdu.cs.starry.taurus.example.SystemReporter</class>
+		<description>SystemReporter</description>
+	</reporter>
+	<response-handler>
+		<class>cn.edu.sdu.cs.starry.taurus.example.TestAllResponseHandler</class>
+		<description>SimpleResponseHandler</description>
+	</response-handler>
+	<requests>
+		<default-class>cn.edu.sdu.cs.starry.taurus.example.timer.TestTimerRequest</default-class>
+	</requests>
+	<processors>
+		<default-class>cn.edu.sdu.cs.starry.taurus.example.timer.TestTimerProcessor</default-class>
+		
+		<base-path>cn.edu.sdu.cs.starry.taurus.example.timer</base-path>
+		<suffix>Processor</suffix>
+		<!--  -->
+	</processors>
+	<responses>
+		<default-class>cn.edu.sdu.cs.starry.taurus.example.timer.TestTimerResponse</default-class>
+		 
+		<base-path>cn.edu.sdu.cs.starry.taurus.example.timer</base-path>
+		<suffix>Response</suffix>
+		 <!-- -->
+	</responses>
+	<businesses>
+		<business name="TestTimer" interval="1000" tip="1_hour" delay="1000"></business>
+	</businesses>
+</business-type>
