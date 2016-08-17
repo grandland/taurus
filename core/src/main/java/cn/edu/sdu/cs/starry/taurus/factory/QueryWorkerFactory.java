@@ -3,6 +3,7 @@ package cn.edu.sdu.cs.starry.taurus.factory;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.edu.sdu.cs.starry.taurus.TaurusMetrics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -89,6 +90,7 @@ public class QueryWorkerFactory extends BaseBusinessFactory {
 		if (!(request instanceof QueryRequest)) {
 			throw new BusinessCorrespondingException();
 		}
+		TaurusMetrics.incQueryMeter();
 		QueryRequest query = (QueryRequest) request;
 		LOG.info("Received a query request: [" + query.getUserName() + "@"
 				+ query.getUserIP() + " >> " + query.getClass().getName()

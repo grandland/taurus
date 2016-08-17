@@ -3,6 +3,7 @@ package cn.edu.sdu.cs.starry.taurus.factory;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.edu.sdu.cs.starry.taurus.TaurusMetrics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,6 +54,7 @@ public class TimerProcessorFactory extends BaseBusinessFactory {
     public BaseBusinessResponse process(String businessKey,
                                         BaseBusinessRequest request, BusinessMonitor monitor)
             throws BusinessException {
+        TaurusMetrics.incTimerMeter();
         if (!(request instanceof TimerRequest)) {
             throw new BusinessCorrespondingException();
         }

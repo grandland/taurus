@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import cn.edu.sdu.cs.starry.taurus.TaurusMetrics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -74,6 +75,7 @@ public class CommandProcessorFactory extends BaseBusinessFactory {
         if (!(request instanceof CommandRequest)) {
             throw new BusinessCorrespondingException();
         }
+        TaurusMetrics.incCommandMeter();
         CommandRequest asyncRequest = (CommandRequest) request;
         LOG.info("Received a COMMAND request: [" + request.getUserName() + "@"
                 + request.getUserIP() + ">>'" + request.getClass().getName()
@@ -91,6 +93,7 @@ public class CommandProcessorFactory extends BaseBusinessFactory {
             processor.clean();
             processorPool.putProcessor(businessKey, processor);
         }
+
         return response;
     }
 
